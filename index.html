@@ -8,71 +8,99 @@
 </head>
 <body>
 
-<header class="top-bar">
-  <h1>Utility Tool</h1>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="left">
+      <span class="cat">🐱</span>
+      <div class="clock" id="clock">--:--:--</div>
+    </div>
 
-  <div class="top-actions">
-    <button id="darkToggle">🌙</button>
-    <button onclick="location.reload()">🔄</button>
+    <div class="right">
+      <button id="darkToggle">🌙</button>
+      <button onclick="location.reload()">⟳</button>
+    </div>
   </div>
-</header>
 
-<main class="container">
+  <!-- Home -->
+  <div class="section active" id="home">
+    <h1>Utility Tool</h1>
+    <div class="grid">
+      <button onclick="showSection('guarantee')">Money Back Guarantee Checker</button>
+      <button onclick="showSection('discount')">Discount Calculator</button>
+      <button onclick="showSection('refund')">Refund Timeframe Tracker</button>
+      <button onclick="showSection('aht')">AHT Time Converter</button>
+      <button onclick="showSection('notation')">Notations Format</button>
+    </div>
+  </div>
 
-  <!-- REALTIME CLOCK -->
-  <section class="card">
-    <h2>Realtime Clock</h2>
-    <div id="clock" class="output"></div>
-  </section>
-
-  <!-- MONEY BACK GUARANTEE -->
-  <section class="card">
+  <!-- Guarantee Checker -->
+  <div class="section" id="guarantee">
     <h2>Money Back Guarantee Checker</h2>
-    <input type="date" id="orderDate"/>
-    <input type="number" id="guaranteedDays" placeholder="Guaranteed Days"/>
-    <input type="date" id="todayDate"/>
+
+    <input type="date" id="orderDate">
+    <input type="number" id="guaranteeDays" placeholder="Guarantee Days">
+    <input type="date" id="todayDate">
+
     <button onclick="checkGuarantee()">Check</button>
-    <div id="guaranteeResult" class="output"></div>
-  </section>
 
-  <!-- DISCOUNT CALCULATOR -->
-  <section class="card">
+    <div class="output" id="guaranteeOutput"></div>
+    <button class="back" onclick="showSection('home')">Back to Home</button>
+  </div>
+
+  <!-- Discount -->
+  <div class="section" id="discount">
     <h2>Discount Calculator</h2>
-    <input type="number" id="amount" placeholder="Enter amount"/>
-    <button onclick="calcDiscount()">Calculate</button>
-    <div id="discountResult" class="output"></div>
-  </section>
 
-  <!-- REFUND TRACKER -->
-  <section class="card">
+    <input type="number" id="amount" placeholder="Enter amount">
+    <button onclick="calculateDiscount()">Calculate</button>
+
+    <div class="output" id="discountOutput"></div>
+    <button class="back" onclick="showSection('home')">Back to Home</button>
+  </div>
+
+  <!-- Refund -->
+  <div class="section" id="refund">
     <h2>Refund Timeframe Tracker</h2>
-    <input type="date" id="refundDate"/>
+
+    <input type="date" id="refundDate">
     <select id="refundRange">
-      <option value="5">3–5 Business Days</option>
-      <option value="14">7–14 Business Days</option>
+      <option value="3-5">3-5 Business Days</option>
+      <option value="7-14">7-14 Business Days</option>
     </select>
-    <button onclick="calcRefund()">Track</button>
-    <div id="refundResult" class="output"></div>
-  </section>
 
-  <!-- AHT CONVERTER -->
-  <section class="card">
+    <button onclick="calculateRefund()">Calculate</button>
+
+    <div class="output" id="refundOutput"></div>
+    <button class="back" onclick="showSection('home')">Back to Home</button>
+  </div>
+
+  <!-- AHT -->
+  <div class="section" id="aht">
     <h2>AHT Time Converter</h2>
-    <input type="number" id="seconds" placeholder="Enter seconds"/>
+
+    <input type="number" id="secondsInput" placeholder="Seconds">
     <button onclick="convertTime()">Convert</button>
-    <div id="ahtResult" class="output"></div>
-  </section>
 
-  <!-- PARCEL TRACKER -->
-  <section class="card">
-    <h2>Parcel Tracker</h2>
-    <input type="text" id="trackingNumber" placeholder="Enter tracking number"/>
-    <button onclick="trackParcel()">Track</button>
-    <div id="parcelResult" class="output"></div>
-  </section>
+    <div class="output" id="ahtOutput"></div>
+    <button class="back" onclick="showSection('home')">Back to Home</button>
+  </div>
 
-</main>
+  <!-- Notation -->
+  <div class="section" id="notation">
+    <h2>Notations Format</h2>
 
-<script src="script.js"></script>
+    <div class="btn-row">
+      <button onclick="setTemplate(1)">Type 1</button>
+      <button onclick="setTemplate(2)">Type 2</button>
+      <button onclick="setTemplate(3)">Type 3</button>
+      <button onclick="copyText()">Copy</button>
+    </div>
+
+    <textarea id="notationBox"></textarea>
+
+    <button class="back" onclick="showSection('home')">Back to Home</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
