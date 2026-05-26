@@ -4,76 +4,75 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Utility Tool</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
 
-  <header class="topbar">
-    <h1>Utility Tool</h1>
-    <div class="topbar-actions">
-      <button id="darkToggle">🌙 Dark Mode</button>
-      <button onclick="location.reload()">🔄 Refresh</button>
-    </div>
-  </header>
+<header class="top-bar">
+  <h1>Utility Tool</h1>
 
-  <main class="container">
+  <div class="top-actions">
+    <button id="darkToggle">🌙</button>
+    <button onclick="location.reload()">🔄</button>
+  </div>
+</header>
 
-    <!-- Money Back Guarantee Checker -->
-    <section class="card">
-      <h2>Money Back Guarantee Checker</h2>
-      <input type="date" id="orderDate"/>
-      <input type="number" id="guaranteedDays" placeholder="Guaranteed Days"/>
-      <input type="date" id="todayDate"/>
-      <button onclick="checkGuarantee()">Check</button>
-      <p id="guaranteeResult"></p>
-    </section>
+<main class="container">
 
-    <!-- Discount Calculator -->
-    <section class="card">
-      <h2>Discount Calculator</h2>
-      <input type="number" id="amount" placeholder="Enter Amount"/>
-      <button onclick="calculateDiscount()">Calculate</button>
-      <div id="discountResult"></div>
-    </section>
+  <!-- REALTIME CLOCK -->
+  <section class="card">
+    <h2>Realtime Clock</h2>
+    <div id="clock" class="output"></div>
+  </section>
 
-    <!-- Refund Tracker -->
-    <section class="card">
-      <h2>Refund Timeframe Tracker</h2>
-      <input type="date" id="refundDate"/>
-      <select id="refundType">
-        <option value="3-5">3-5 Business Days</option>
-        <option value="7-14">7-14 Business Days</option>
-      </select>
-      <button onclick="calculateRefund()">Track</button>
-      <p id="refundResult"></p>
-    </section>
+  <!-- MONEY BACK GUARANTEE -->
+  <section class="card">
+    <h2>Money Back Guarantee Checker</h2>
+    <input type="date" id="orderDate"/>
+    <input type="number" id="guaranteedDays" placeholder="Guaranteed Days"/>
+    <input type="date" id="todayDate"/>
+    <button onclick="checkGuarantee()">Check</button>
+    <div id="guaranteeResult" class="output"></div>
+  </section>
 
-    <!-- AHT Converter -->
-    <section class="card">
-      <h2>AHT Time Converter</h2>
-      <input type="number" id="secondsInput" placeholder="Seconds"/>
-      <button onclick="convertTime()">Convert</button>
-      <p id="ahtResult"></p>
-    </section>
+  <!-- DISCOUNT CALCULATOR -->
+  <section class="card">
+    <h2>Discount Calculator</h2>
+    <input type="number" id="amount" placeholder="Enter amount"/>
+    <button onclick="calcDiscount()">Calculate</button>
+    <div id="discountResult" class="output"></div>
+  </section>
 
-    <!-- Parcel Tracker -->
-    <section class="card">
-      <h2>Parcel Tracker</h2>
-      <input type="text" id="address" placeholder="Delivery Address"/>
-      <input type="text" id="latestUpdate" placeholder="Latest Update"/>
-      <input type="date" id="deliveryDate"/>
-      <button onclick="trackParcel()">Track</button>
-      <p id="parcelResult"></p>
-    </section>
+  <!-- REFUND TRACKER -->
+  <section class="card">
+    <h2>Refund Timeframe Tracker</h2>
+    <input type="date" id="refundDate"/>
+    <select id="refundRange">
+      <option value="5">3–5 Business Days</option>
+      <option value="14">7–14 Business Days</option>
+    </select>
+    <button onclick="calcRefund()">Track</button>
+    <div id="refundResult" class="output"></div>
+  </section>
 
-    <!-- Realtime Clock -->
-    <section class="card">
-      <h2>Realtime Clock</h2>
-      <h3 id="clock"></h3>
-    </section>
+  <!-- AHT CONVERTER -->
+  <section class="card">
+    <h2>AHT Time Converter</h2>
+    <input type="number" id="seconds" placeholder="Enter seconds"/>
+    <button onclick="convertTime()">Convert</button>
+    <div id="ahtResult" class="output"></div>
+  </section>
 
-  </main>
+  <!-- PARCEL TRACKER -->
+  <section class="card">
+    <h2>Parcel Tracker</h2>
+    <input type="text" id="trackingNumber" placeholder="Enter tracking number"/>
+    <button onclick="trackParcel()">Track</button>
+    <div id="parcelResult" class="output"></div>
+  </section>
 
-  <script src="script.js"></script>
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
