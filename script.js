@@ -1,204 +1,215 @@
-/* CLOCK */
+// PAGE NAVIGATION
+function showPage(pageId) {
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
+  });
 
-function updateClock(){
-
-  const now = new Date();
-
-  document.getElementById("clock").innerHTML =
-    now.toLocaleTimeString();
+  document.getElementById(pageId).classList.add("active");
 }
 
-setInterval(updateClock,1000);
+// DARK MODE
+const darkToggle = document.getElementById("darkModeToggle");
 
-updateClock();
-
-/* DARK MODE */
-
-document
-.getElementById("darkBtn")
-.onclick = function(){
-
+darkToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark");
-};
 
-/* MONEYBACK CHECKER */
+  if (document.body.classList.contains("dark")) {
+    darkToggle.innerHTML = "☀️ Light Mode";
+  } else {
+    darkToggle.innerHTML = "🌙 Dark Mode";
+  }
+});
 
-function checkGuarantee(){
+// REFRESH BUTTON
+document.getElementById("refreshPage").addEventListener("click", () => {
+  location.reload();
+});
 
-  const purchase =
-    document.getElementById("purchaseDate").value;
+// AUTO TODAY DATE
+const today = new Date().toISOString().split("T")[0];
+document.getElementById("todayDate").value = today;
 
-  const days =
-    parseInt(document.getElementById("days").value);
+// MONEY BACK GUARANTEE
+function checkGuarantee() {
+  const orderDate = new Date(document.getElementById("orderDate").value);
+  const guaranteeDays = parseInt(document.getElementById("guaranteeDays").value);
+  const todayDate = new Date(document.getElementById("todayDate").value);
 
-  const result =
-    document.getElementById("guaranteeResult");
-
-  if(!purchase || !days){
-
-    result.innerHTML =
-      "Please fill all fields";
-
+  if (!orderDate || !guaranteeDays || !todayDate) {
+    alert("Please fill all fields.");
     return;
   }
 
-  const purchaseDate = new Date(purchase);
+  const expirationDate = new Date(orderDate);
+  expirationDate.setDate(expirationDate.getDate() + guaranteeDays);
 
-  const expiry = new Date(purchaseDate);
+  const daysUsed = Math.floor((todayDate - orderDate) / (1000 * 60 * 60 * 24));
+  const remaining = Math.floor((expirationDate - todayDate) / (1000 * 60 * 60 * 24));
 
-  expiry.setDate(expiry.getDate() + days);
+  let status = "";
 
-  const today = new Date();
-
-  if(today <= expiry){
-
-    result.innerHTML =
-      `<span style="color:lightgreen">
-      Eligible for Refund
-      </span>`;
-
-  }else{
-
-    result.innerHTML =
-      `<span style="color:red">
-      Guarantee Expired
-      </span>`;
+  if (remaining >= 0) {
+    status = `✅ Refund Eligible\nDays Remaining: ${remaining}`;
+  } else {
+    status = `❌ Guarantee Expired\nExpired By: ${Math.abs(remaining)} days`;
   }
+
+  document.getElementById("guaranteeResult").innerText =
+`📅 Order Date: ${formatDate(orderDate)}
+🛡️ Guarantee Days: ${guaranteeDays}
+⌛ Days Used: ${daysUsed}
+📌 Expiration Date: ${formatDate(expirationDate)}
+
+${status}`;
 }
 
-/* AHT CONVERTER */
+// DISCOUNT CALCULATOR
+function calculateDiscounts() {
+  const amount = parseFloat(document.getElementById("discountAmount").value);
 
-function convertTime(){
-
-  const seconds =
-    parseInt(document.getElementById("seconds").value);
-
-  const result =
-    document.getElementById("timeResult");
-
-  if(isNaN(seconds)){
-
-    result.innerHTML =
-      "Enter valid seconds";
-
+  if (!amount) {
+    alert("Enter amount.");
     return;
   }
 
-  const minutes =
-    (seconds/60).toFixed(2);
+  const discounts = [10, 35, 50, 70, 75];
 
-  const hours =
-    (seconds/3600).toFixed(2);
+  let output = "";
 
-  const hh =
-    String(Math.floor(seconds/3600))
-    .padStart(2,"0");
+  discounts.forEach(d => {
+    const discountAmount = amount * (d / 100);
+    const finalPrice = amount - discountAmount;
 
-  const mm =
-    String(Math.floor((seconds%3600)/60))
-    .padStart(2,"0");
+    output += `🔥 ${d}% Discount
+Discount Amount: $${discountAmount.toFixed(2)}
+Final Price: $${finalPrice.toFixed(2)}
 
-  const ss =
-    String(seconds%60)
-    .padStart(2,"0");
+`;
+  });
 
-  result.innerHTML = `
-    <p>Minutes: ${minutes}</p>
-    <p>Hours: ${hours}</p>
-    <p>HH:MM:SS: ${hh}:${mm}:${ss}</p>
-  `;
+  document.getElementById("discountResult").innerText = output;
 }
 
-/* REFUND CALCULATOR */
+// BUSINESS DAYS FUNCTION
+function addBusinessDays(date, days) {
+  const result = new Date(date);
+  let added = 0;
 
-function calculateRefund(){
+  while (added < days) {
+    result.setDate(result.getDate() + 1);
 
-  const price =
-    parseFloat(document.getElementById("price").value);
+    const day = result.getDay();
 
-  const percent =
-    parseFloat(document.getElementById("percent").value);
+    if (day !== 0 && day !== 6) {
+      added++;
+    }
+  }
 
-  const fee =
-    parseFloat(document.getElementById("fee").value);
+  return result;
+}
 
-  const result =
-    document.getElementById("refundResult");
+// REFUND TIMEFRAME
+function calculateRefundWindow() {
+  const refundDate = new Date(document.getElementById("refundDate").value);
+  const range = document.getElementById("refundRange").value;
 
-  if(isNaN(price) || isNaN(percent) || isNaN(fee)){
-
-    result.innerHTML =
-      "Please fill all fields";
-
+  if (!refundDate || range === "") {
+    alert("Please complete the fields.");
     return;
   }
 
-  const refund =
-    (price * percent / 100) - fee;
+  const [minDays, maxDays] = range.split("-").map(Number);
 
-  result.innerHTML = `
-    <h3>Final Refund</h3>
-    <p>$${refund.toFixed(2)}</p>
-  `;
+  const fromDate = addBusinessDays(refundDate, minDays);
+  const toDate = addBusinessDays(refundDate, maxDays);
+
+  document.getElementById("refundResult").innerText =
+`📦 Expected Refund Processing Window
+
+From: ${formatDate(fromDate)}
+To: ${formatDate(toDate)}`;
 }
 
-/* PRODUCT DATA */
+// AHT CONVERTER
+function convertTime() {
+  const totalSeconds = parseInt(document.getElementById("secondsInput").value);
 
-const products = [
-
-  {
-    id:"P1001",
-    name:"Wireless Mouse",
-    category:"Accessories",
-    warranty:"1 Year",
-    refund:"30 Days",
-    price:"$25"
-  },
-
-  {
-    id:"P1002",
-    name:"Gaming Keyboard",
-    category:"Gaming",
-    warranty:"2 Years",
-    refund:"15 Days",
-    price:"$80"
+  if (isNaN(totalSeconds)) {
+    alert("Enter seconds.");
+    return;
   }
 
-];
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
-/* SEARCH PRODUCT */
+  document.getElementById("ahtResult").innerText =
+`⏱️ Time Converted
 
-function searchProduct(){
+Hours: ${hours}
+Minutes: ${minutes}
+Seconds: ${seconds}`;
+}
 
-  const query =
-    document.getElementById("productSearch")
-    .value
-    .toLowerCase();
+// NOTATION TEMPLATES
+function loadTemplate(type) {
+  const textarea = document.getElementById("notationText");
 
-  const result =
-    document.getElementById("productResult");
-
-  const found =
-    products.find(product =>
-
-      product.id.toLowerCase() === query ||
-
-      product.name.toLowerCase().includes(query)
-    );
-
-  if(found){
-
-    result.innerHTML = `
-      <h3>${found.name}</h3>
-      <p>Category: ${found.category}</p>
-      <p>Warranty: ${found.warranty}</p>
-      <p>Refund Policy: ${found.refund}</p>
-      <p>Price: ${found.price}</p>
-    `;
-
-  }else{
-
-    result.innerHTML =
-      "Product not found";
+  if (type === 1) {
+    textarea.value = `Agent Name: 
+REASON FOR CALLING: 
+OFFER SAVE: 
+THREAT: 
+RESOLUTION: 
+ACCOUNT STATUS:`;
   }
+
+  if (type === 2) {
+    textarea.value = `AGENT:
+REASON FOR CALLING:
+THREAT: 
+SAVE OFFER:
+RESOLUTION:
+STATUS:
+
+campaign:
+name: 
+phone number: 
+email address: 
+order id: 
+product name:`;
+  }
+
+  if (type === 3) {
+    textarea.value = `FOR NO ACCOUNT FOUND
+Campaign: 
+Order Date: 
+Email: 
+Name: 
+Phone Number: 
+Product Name: 
+Tracking Number: 
+Order ID:`;
+  }
+}
+
+// COPY BUTTON
+function copyNotation() {
+  const textarea = document.getElementById("notationText");
+
+  textarea.select();
+  textarea.setSelectionRange(0, 99999);
+
+  navigator.clipboard.writeText(textarea.value);
+
+  alert("Copied to clipboard!");
+}
+
+// FORMAT DATE
+function formatDate(date) {
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
 }
