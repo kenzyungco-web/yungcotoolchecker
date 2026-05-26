@@ -1,112 +1,161 @@
-// DARK MODE
+// Navigation
+function showSection(id) {
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+// Dark Mode
 document.getElementById("darkToggle").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-// AUTO FILL TODAY DATE
-window.onload = () => {
-  const today = new Date().toISOString().split("T")[0];
-  document.getElementById("todayDate").value = today;
-  setInterval(updateClock, 1000);
-};
-
-// CLOCK
+// Clock
 function updateClock() {
   const now = new Date();
-  document.getElementById("clock").innerText = now.toLocaleString();
+  document.getElementById("clock").textContent =
+    now.toLocaleTimeString();
 }
+setInterval(updateClock, 1000);
+updateClock();
 
-// MONEY BACK GUARANTEE
+// Guarantee Checker
 function checkGuarantee() {
   const order = new Date(document.getElementById("orderDate").value);
-  const days = parseInt(document.getElementById("guaranteedDays").value);
+  const days = parseInt(document.getElementById("guaranteeDays").value);
   const today = new Date(document.getElementById("todayDate").value);
 
-  if (!order || !days) return;
+  if (!order || !today || isNaN(days)) return;
 
-  const limit = new Date(order);
-  limit.setDate(limit.getDate() + days);
+  const expiry = new Date(order);
+  expiry.setDate(expiry.getDate() + days);
 
-  const result = today <= limit
-    ? "✅ Still within guarantee period"
-    : "❌ Guarantee expired";
+  const diffTime = today - order;
+  const used = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-  document.getElementById("guaranteeResult").innerText = result;
+  let remaining = Math.floor((expiry - today) / (1000 * 60 * 60 * 24));
+
+  let status = today <= expiry ? "Eligible for Refund" : "Not Eligible";
+
+  document.getElementById("guaranteeOutput").innerHTML = `
+    <p><b>Order Date:</b> ${order.toDateString()}</p>
+    <p><b>Today:</b> ${today.toDateString()}</p>
+    <p><b>Guarantee Days:</b> ${days}</p>
+    <p><b>Expiry Date:</b> ${expiry.toDateString()}</p>
+    <p><b>Days Used:</b> ${used}</p>
+    <p><b>${remaining >= 0 ? "Days Remaining" : "Days Expired"}:</b> ${Math.abs(remaining)}</p>
+    <p><b>Status:</b> ${status}</p>
+  `;
 }
 
-// DISCOUNT CALCULATOR
-function calcDiscount() {
+// Discount Calculator
+function calculateDiscount() {
   const amount = parseFloat(document.getElementById("amount").value);
   if (!amount) return;
 
   const rates = [10, 35, 50, 70, 75];
-  let output = "";
+  let html = "";
 
   rates.forEach(r => {
-    const discount = (amount * r) / 100;
-    const final = amount - discount;
-    output += `${r}% → Discount: ${discount.toFixed(2)} | Final: ${final.toFixed(2)}\n`;
+    let discount = (amount * r) / 100;
+    let final = amount - discount;
+
+    html += `<p>${r}% → Discount: ${discount.toFixed(2)}, Final: ${final.toFixed(2)}</p>`;
   });
 
-  document.getElementById("discountResult").innerText = output;
+  document.getElementById("discountOutput").innerHTML = html;
 }
 
-// REFUND TRACKER (BUSINESS DAYS ONLY)
-function addBusinessDays(startDate, days) {
-  let date = new Date(startDate);
-  let count = 0;
+// Business days helper
+function addBusinessDays(date, days) {
+  let result = new Date(date);
+  let added = 0;
 
-  while (count < days) {
-    date.setDate(date.getDate() + 1);
-    const day = date.getDay();
-    if (day !== 0 && day !== 6) count++;
+  while (added < days) {
+    result.setDate(result.getDate() + 1);
+    if (result.getDay() !== 0 && result.getDay() !== 6) {
+      added++;
+    }
   }
-
-  return date;
+  return result;
 }
 
-function calcRefund() {
-  const start = document.getElementById("refundDate").value;
-  const range = parseInt(document.getElementById("refundRange").value);
+// Refund tracker
+function calculateRefund() {
+  const start = new Date(document.getElementById("refundDate").value);
+  const range = document.getElementById("refundRange").value.split("-");
 
   if (!start) return;
 
-  const from = addBusinessDays(start, 3);
-  const to = addBusinessDays(start, range);
+  const min = addBusinessDays(start, parseInt(range[0]));
+  const max = addBusinessDays(start, parseInt(range[1]));
 
-  document.getElementById("refundResult").innerText =
-    `From: ${from.toDateString()} \nTo: ${to.toDateString()}`;
+  document.getElementById("refundOutput").innerHTML = `
+    <p><b>From:</b> ${min.toDateString()}</p>
+    <p><b>To:</b> ${max.toDateString()}</p>
+  `;
 }
 
-// AHT CONVERTER
+// AHT Converter
 function convertTime() {
-  let sec = parseInt(document.getElementById("seconds").value);
-  if (!sec && sec !== 0) return;
+  let sec = parseInt(document.getElementById("secondsInput").value);
+  if (isNaN(sec)) return;
 
-  const h = Math.floor(sec / 3600);
+  let h = Math.floor(sec / 3600);
   sec %= 3600;
-  const m = Math.floor(sec / 60);
-  const s = sec % 60;
+  let m = Math.floor(sec / 60);
+  let s = sec % 60;
 
-  document.getElementById("ahtResult").innerText =
-    `${h}h ${m}m ${s}s`;
+  document.getElementById("ahtOutput").innerHTML =
+    `<p>${h}h ${m}m ${s}s</p>`;
 }
 
-// PARCEL TRACKER (SIMULATED)
-function trackParcel() {
-  const tracking = document.getElementById("trackingNumber").value;
+// Notation Templates
+function setTemplate(type) {
+  const box = document.getElementById("notationBox");
 
-  if (!tracking) return;
+  if (type === 1) {
+    box.value =
+`Agent Name: 
+REASON FOR CALLING: 
+OFFER SAVE: 
+THREAT: 
+RESOLUTION: 
+ACCOUNT STATUS:`;
+  }
 
-  const fakeStatus = [
-    "In Transit 🚚",
-    "Out for Delivery 📦",
-    "Arrived at Sorting Center 🏢",
-    "Delivered ✅"
-  ];
+  if (type === 2) {
+    box.value =
+`AGENT:
+REASON FOR CALLING:
+THREAT: 
+SAVE OFFER:
+RESOLUTION:
+STATUS:
 
-  const status = fakeStatus[Math.floor(Math.random() * fakeStatus.length)];
+campaign:
+name: 
+phone number: 
+email address: 
+order id: 
+product name:`;
+  }
 
-  document.getElementById("parcelResult").innerText =
-    `Tracking #: ${tracking}\nStatus: ${status}`;
+  if (type === 3) {
+    box.value =
+`FOR NO ACCOUNT FOUND
+Campaign: 
+Order Date: 
+Email: 
+Name: 
+Phone Number: 
+Product Name: 
+Tracking Number: 
+Order ID:`;
+  }
+}
+
+// Copy
+function copyText() {
+  const box = document.getElementById("notationBox");
+  navigator.clipboard.writeText(box.value);
 }
