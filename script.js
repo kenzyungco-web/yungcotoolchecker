@@ -1,99 +1,208 @@
-// NAV
-function openPage(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
-
-// CLOCK
+// ---------------- CLOCK ----------------
 setInterval(()=>{
   document.getElementById("clock").textContent =
     new Date().toLocaleTimeString();
 },1000);
 
-// THEME
+// ---------------- THEME ----------------
 document.getElementById("themeBtn").onclick = () =>{
   document.body.classList.toggle("light");
 };
 
-// -------------------- GUARANTEE --------------------
+// ---------------- MINI SPA ROUTER ----------------
+const app = document.getElementById("app");
+
+const views = {
+  home: () => `
+    <div class="page">
+      <h1>Utility Tool SPA</h1>
+
+      <div class="grid">
+        <button class="nav-btn" onclick="navigate('guarantee')">Money Back Checker</button>
+        <button class="nav-btn" onclick="navigate('discount')">Discount Calculator</button>
+        <button class="nav-btn" onclick="navigate('refund')">Refund Tracker</button>
+        <button class="nav-btn" onclick="navigate('aht')">AHT Converter</button>
+        <button class="nav-btn" onclick="navigate('notation')">Notations</button>
+      </div>
+    </div>
+  `,
+
+  guarantee: () => `
+    <div class="page">
+      <h2>Money Back Checker</h2>
+      <div class="card">
+        <input type="date" id="order">
+        <input type="number" id="days" placeholder="Guarantee Days">
+        <input type="date" id="today">
+
+        <button onclick="checkGuarantee()">Calculate</button>
+        <div id="out"></div>
+
+        <button class="back" onclick="navigate('home')">Back</button>
+      </div>
+    </div>
+  `,
+
+  discount: () => `
+    <div class="page">
+      <h2>Discount Calculator</h2>
+      <div class="card">
+        <input type="number" id="amt" placeholder="Amount">
+        <button onclick="calcDiscount()">Calculate</button>
+        <div id="out"></div>
+        <button class="back" onclick="navigate('home')">Back</button>
+      </div>
+    </div>
+  `,
+
+  refund: () => `
+    <div class="page">
+      <h2>Refund Tracker</h2>
+      <div class="card">
+        <input type="date" id="rdate">
+        <select id="range">
+          <option value="3-5">3-5 Days</option>
+          <option value="7-14">7-14 Days</option>
+        </select>
+
+        <button onclick="calcRefund()">Calculate</button>
+        <div id="out"></div>
+        <button class="back" onclick="navigate('home')">Back</button>
+      </div>
+    </div>
+  `,
+
+  aht: () => `
+    <div class="page">
+      <h2>AHT Converter</h2>
+      <div class="card">
+        <input type="number" id="sec" placeholder="Seconds">
+        <button onclick="convert()">Convert</button>
+        <div id="out"></div>
+        <button class="back" onclick="navigate('home')">Back</button>
+      </div>
+    </div>
+  `,
+
+  notation: () => `
+    <div class="page">
+      <h2>Notations</h2>
+
+      <div class="card">
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button onclick="tpl(1)">Type 1</button>
+          <button onclick="tpl(2)">Type 2</button>
+          <button onclick="tpl(3)">Type 3</button>
+          <button onclick="copy()">Copy</button>
+        </div>
+
+        <textarea id="box"></textarea>
+        <button class="back" onclick="navigate('home')">Back</button>
+      </div>
+    </div>
+  `
+};
+
+// ---------------- NAVIGATION WITH ANIMATION ----------------
+function navigate(page){
+  app.style.opacity = 0;
+  app.style.transform = "translateY(10px)";
+
+  setTimeout(()=>{
+    location.hash = page;
+    render(page);
+
+    app.style.opacity = 1;
+    app.style.transform = "translateY(0)";
+  },150);
+}
+
+function render(page){
+  app.innerHTML = views[page] ? views[page]() : views.home();
+}
+
+// default route
+window.addEventListener("load",()=>{
+  const page = location.hash.replace("#","") || "home";
+  render(page);
+});
+
+// ---------------- FUNCTIONS ----------------
+
+// Guarantee
 function checkGuarantee(){
-  const order = new Date(orderDate.value);
-  const days = parseInt(guaranteeDays.value);
-  const today = new Date(todayDate.value);
+  const o = new Date(order.value);
+  const d = +days.value;
+  const t = new Date(today.value);
 
-  if(!order || !today || isNaN(days)) return;
+  let exp = new Date(o);
+  exp.setDate(exp.getDate()+d);
 
-  let expiry = new Date(order);
-  expiry.setDate(expiry.getDate() + days);
+  let diff = Math.floor((t-o)/86400000);
+  let rem = Math.floor((exp-t)/86400000);
 
-  let diff = Math.floor((today - order)/(1000*60*60*24));
-  let remaining = Math.floor((expiry - today)/(1000*60*60*24));
-
-  guaranteeOut.innerHTML = `
-    <p>Expiry: ${expiry.toDateString()}</p>
-    <p>Used: ${diff} days</p>
-    <p>${remaining >= 0 ? "Remaining" : "Expired"}: ${Math.abs(remaining)} days</p>
-    <p>Status: ${today <= expiry ? "Eligible" : "Not Eligible"}</p>
+  out.innerHTML = `
+    <div class="result">
+      Expiry: ${exp.toDateString()}<br>
+      Used: ${diff} days<br>
+      ${rem>=0?"Remaining":"Expired"}: ${Math.abs(rem)} days
+    </div>
   `;
 }
 
-// -------------------- DISCOUNT --------------------
+// Discount
 function calcDiscount(){
-  const a = parseFloat(amount.value);
-  if(isNaN(a)) return;
+  let a = +amt.value;
+  const r = [10,35,50,70,75];
 
-  const rates = [10,35,50,70,75];
-  discountOut.innerHTML = rates.map(r=>{
-    let d = (a*r)/100;
-    return `${r}% → Discount: ${d.toFixed(2)} | Final: ${(a-d).toFixed(2)}`;
+  out.innerHTML = r.map(x=>{
+    let d = a*x/100;
+    return `${x}% → ${d.toFixed(2)} (Final ${(a-d).toFixed(2)})`;
   }).join("<br>");
 }
 
-// -------------------- REFUND --------------------
-function addBD(date,days){
-  let d = new Date(date);
-  let count=0;
-
-  while(count<days){
-    d.setDate(d.getDate()+1);
-    if(d.getDay()!=0 && d.getDay()!=6) count++;
+// Refund
+function addBD(d,n){
+  let x = new Date(d);
+  let c=0;
+  while(c<n){
+    x.setDate(x.getDate()+1);
+    if(x.getDay()!=0 && x.getDay()!=6) c++;
   }
-  return d;
+  return x;
 }
 
 function calcRefund(){
-  const start = new Date(refundDate.value);
-  const [min,max] = refundRange.value.split("-").map(Number);
+  const [min,max]=range.value.split("-").map(Number);
 
-  if(!start) return;
+  let from = addBD(rdate.value,min);
+  let to = addBD(rdate.value,max);
 
-  let from = addBD(start,min);
-  let to = addBD(start,max);
-
-  refundOut.innerHTML = `
-    From: ${from.toDateString()}<br>
-    To: ${to.toDateString()}
+  out.innerHTML = `
+    <div class="result">
+      From: ${from.toDateString()}<br>
+      To: ${to.toDateString()}
+    </div>
   `;
 }
 
-// -------------------- AHT --------------------
+// AHT
 function convert(){
-  let s = parseInt(seconds.value);
-  if(isNaN(s)) return;
-
-  let h = Math.floor(s/3600);
+  let s = +sec.value;
+  let h=Math.floor(s/3600);
   s%=3600;
-  let m = Math.floor(s/60);
-  let sec = s%60;
+  let m=Math.floor(s/60);
+  let sec2=s%60;
 
-  ahtOut.innerHTML = `${h}h ${m}m ${sec}s`;
+  out.innerHTML = `<div class="result">${h}h ${m}m ${sec2}s</div>`;
 }
 
-// -------------------- NOTATION --------------------
-function template(t){
+// Notation
+function tpl(t){
+  const box=document.getElementById("box");
+
   if(t==1){
-    noteBox.value =
-`Agent Name:
+    box.value=`Agent Name:
 REASON FOR CALLING:
 OFFER SAVE:
 THREAT:
@@ -102,8 +211,7 @@ ACCOUNT STATUS:`;
   }
 
   if(t==2){
-    noteBox.value =
-`AGENT:
+    box.value=`AGENT:
 REASON FOR CALLING:
 THREAT:
 SAVE OFFER:
@@ -119,8 +227,7 @@ product name:`;
   }
 
   if(t==3){
-    noteBox.value =
-`FOR NO ACCOUNT FOUND
+    box.value=`FOR NO ACCOUNT FOUND
 Campaign:
 Order Date:
 Email:
@@ -132,6 +239,6 @@ Order ID:`;
   }
 }
 
-function copyText(){
-  navigator.clipboard.writeText(noteBox.value);
+function copy(){
+  navigator.clipboard.writeText(document.getElementById("box").value);
 }
