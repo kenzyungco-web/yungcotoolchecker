@@ -4,86 +4,72 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Utility Tool</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-  <header>
+  <header class="topbar">
     <h1>Utility Tool</h1>
-
-    <div class="top-buttons">
-      <button id="darkModeBtn">🌙 Dark Mode</button>
-      <button id="refreshBtn">🔄 Refresh</button>
+    <div class="topbar-actions">
+      <button id="darkToggle">🌙 Dark Mode</button>
+      <button onclick="location.reload()">🔄 Refresh</button>
     </div>
   </header>
 
-  <nav class="nav-buttons">
-    <button onclick="showSection('guarantee')">Guarantee Checker</button>
-    <button onclick="showSection('discount')">Discount Calculator</button>
-    <button onclick="showSection('refund')">Refund Tracker</button>
-    <button onclick="showSection('aht')">AHT Converter</button>
-  </nav>
+  <main class="container">
 
-  <main>
-
-    <!-- Money Back Guarantee -->
-    <section id="guarantee" class="tool-section active">
+    <!-- Money Back Guarantee Checker -->
+    <section class="card">
       <h2>Money Back Guarantee Checker</h2>
-
-      <label>Order Date</label>
-      <input type="date" id="orderDate">
-
-      <label>Guarantee Days</label>
-      <input type="number" id="guaranteeDays" placeholder="e.g. 30">
-
-      <label>Today's Date</label>
-      <input type="date" id="todayDate">
-
-      <button onclick="checkGuarantee()">Check Guarantee</button>
-
-      <div id="guaranteeResult" class="result"></div>
+      <input type="date" id="orderDate"/>
+      <input type="number" id="guaranteedDays" placeholder="Guaranteed Days"/>
+      <input type="date" id="todayDate"/>
+      <button onclick="checkGuarantee()">Check</button>
+      <p id="guaranteeResult"></p>
     </section>
 
     <!-- Discount Calculator -->
-    <section id="discount" class="tool-section">
+    <section class="card">
       <h2>Discount Calculator</h2>
-
-      <label>Amount</label>
-      <input type="number" id="discountAmount" placeholder="Enter amount">
-
-      <button onclick="calculateDiscounts()">Calculate</button>
-
-      <div id="discountResult" class="result"></div>
+      <input type="number" id="amount" placeholder="Enter Amount"/>
+      <button onclick="calculateDiscount()">Calculate</button>
+      <div id="discountResult"></div>
     </section>
 
     <!-- Refund Tracker -->
-    <section id="refund" class="tool-section">
+    <section class="card">
       <h2>Refund Timeframe Tracker</h2>
-
-      <label>Refund Request Date</label>
-      <input type="date" id="refundDate">
-
-      <label>Processing Time</label>
-      <select id="refundOption">
+      <input type="date" id="refundDate"/>
+      <select id="refundType">
         <option value="3-5">3-5 Business Days</option>
         <option value="7-14">7-14 Business Days</option>
       </select>
-
-      <button onclick="trackRefund()">Track Refund</button>
-
-      <div id="refundResult" class="result"></div>
+      <button onclick="calculateRefund()">Track</button>
+      <p id="refundResult"></p>
     </section>
 
     <!-- AHT Converter -->
-    <section id="aht" class="tool-section">
+    <section class="card">
       <h2>AHT Time Converter</h2>
+      <input type="number" id="secondsInput" placeholder="Seconds"/>
+      <button onclick="convertTime()">Convert</button>
+      <p id="ahtResult"></p>
+    </section>
 
-      <label>Seconds</label>
-      <input type="number" id="secondsInput" placeholder="Enter seconds">
+    <!-- Parcel Tracker -->
+    <section class="card">
+      <h2>Parcel Tracker</h2>
+      <input type="text" id="address" placeholder="Delivery Address"/>
+      <input type="text" id="latestUpdate" placeholder="Latest Update"/>
+      <input type="date" id="deliveryDate"/>
+      <button onclick="trackParcel()">Track</button>
+      <p id="parcelResult"></p>
+    </section>
 
-      <button onclick="convertAHT()">Convert</button>
-
-      <div id="ahtResult" class="result"></div>
+    <!-- Realtime Clock -->
+    <section class="card">
+      <h2>Realtime Clock</h2>
+      <h3 id="clock"></h3>
     </section>
 
   </main>
