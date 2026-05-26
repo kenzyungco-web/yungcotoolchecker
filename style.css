@@ -2,133 +2,71 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 body {
-  font-family: Arial, sans-serif;
   background: #f5f5f5;
   color: #222;
-  min-height: 100vh;
   transition: 0.3s;
 }
 
-header {
+.dark {
+  background: #121212;
+  color: #f1f1f1;
+}
+
+.topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
   background: #4a90e2;
   color: white;
-  flex-wrap: wrap;
 }
 
-.top-buttons {
-  display: flex;
-  gap: 10px;
+.topbar-actions button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.dark .card {
+  background: #1e1e1e;
+}
+
+input, select {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
 }
 
 button {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
+  padding: 8px;
+  margin-top: 5px;
   cursor: pointer;
+  border: none;
   background: #4a90e2;
   color: white;
-  font-weight: bold;
-  transition: 0.2s;
+  border-radius: 5px;
 }
 
 button:hover {
   opacity: 0.9;
-}
-
-.nav-buttons {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  padding: 20px;
-  justify-content: center;
-}
-
-.tool-section {
-  display: none;
-  max-width: 700px;
-  margin: auto;
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.tool-section.active {
-  display: block;
-}
-
-.tool-section h2 {
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-top: 15px;
-  margin-bottom: 5px;
-}
-
-input,
-select {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-.result {
-  margin-top: 20px;
-  padding: 15px;
-  background: #eef4ff;
-  border-radius: 10px;
-  line-height: 1.7;
-}
-
-.dark-mode {
-  background: #121212;
-  color: white;
-}
-
-.dark-mode .tool-section {
-  background: #1e1e1e;
-  color: white;
-}
-
-.dark-mode input,
-.dark-mode select {
-  background: #333;
-  color: white;
-  border: 1px solid #555;
-}
-
-.dark-mode .result {
-  background: #2d2d2d;
-}
-
-@media (max-width: 768px) {
-
-  header {
-    flex-direction: column;
-    gap: 15px;
-    text-align: center;
-  }
-
-  .nav-buttons {
-    flex-direction: column;
-  }
-
-  button {
-    width: 100%;
-  }
-
-  .top-buttons button {
-    width: auto;
-  }
 }
