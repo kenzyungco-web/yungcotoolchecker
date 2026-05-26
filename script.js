@@ -1,6 +1,7 @@
 // PAGE NAVIGATION
-function showPage(pageId) {
-  document.querySelectorAll(".page").forEach(page => {
+function showPage(pageId){
+
+  document.querySelectorAll(".page").forEach(page=>{
     page.classList.remove("active");
   });
 
@@ -8,163 +9,236 @@ function showPage(pageId) {
 }
 
 // DARK MODE
-const darkToggle = document.getElementById("darkModeToggle");
+const darkToggle = document.getElementById("darkToggle");
 
-darkToggle.addEventListener("click", () => {
+darkToggle.addEventListener("click", ()=>{
+
   document.body.classList.toggle("dark");
 
-  if (document.body.classList.contains("dark")) {
-    darkToggle.innerHTML = "☀️ Light Mode";
-  } else {
-    darkToggle.innerHTML = "🌙 Dark Mode";
-  }
-});
+  darkToggle.innerHTML =
+  document.body.classList.contains("dark")
+  ? "☀️"
+  : "🌙";
 
-// REFRESH BUTTON
-document.getElementById("refreshPage").addEventListener("click", () => {
-  location.reload();
 });
 
 // AUTO TODAY DATE
-const today = new Date().toISOString().split("T")[0];
-document.getElementById("todayDate").value = today;
+document.getElementById("todayDate").value =
+new Date().toISOString().split("T")[0];
 
-// MONEY BACK GUARANTEE
-function checkGuarantee() {
-  const orderDate = new Date(document.getElementById("orderDate").value);
-  const guaranteeDays = parseInt(document.getElementById("guaranteeDays").value);
-  const todayDate = new Date(document.getElementById("todayDate").value);
+// GUARANTEE CHECKER
+function checkGuarantee(){
 
-  if (!orderDate || !guaranteeDays || !todayDate) {
-    alert("Please fill all fields.");
+  const orderDate =
+  new Date(document.getElementById("orderDate").value);
+
+  const guaranteeDays =
+  parseInt(document.getElementById("guaranteeDays").value);
+
+  const today =
+  new Date(document.getElementById("todayDate").value);
+
+  if(!guaranteeDays){
+    alert("Complete all fields");
     return;
   }
 
-  const expirationDate = new Date(orderDate);
-  expirationDate.setDate(expirationDate.getDate() + guaranteeDays);
+  const expiration =
+  new Date(orderDate);
 
-  const daysUsed = Math.floor((todayDate - orderDate) / (1000 * 60 * 60 * 24));
-  const remaining = Math.floor((expirationDate - todayDate) / (1000 * 60 * 60 * 24));
+  expiration.setDate(
+    expiration.getDate() + guaranteeDays
+  );
+
+  const used =
+  Math.floor(
+    (today - orderDate) /
+    (1000*60*60*24)
+  );
+
+  const remaining =
+  Math.floor(
+    (expiration - today) /
+    (1000*60*60*24)
+  );
 
   let status = "";
 
-  if (remaining >= 0) {
-    status = `✅ Refund Eligible\nDays Remaining: ${remaining}`;
-  } else {
-    status = `❌ Guarantee Expired\nExpired By: ${Math.abs(remaining)} days`;
+  if(remaining >= 0){
+
+    status = `
+✅ REFUND ELIGIBLE
+
+Days Remaining:
+${remaining}
+`;
+
+  }else{
+
+    status = `
+❌ GUARANTEE EXPIRED
+
+Expired By:
+${Math.abs(remaining)} Days
+`;
+
   }
 
-  document.getElementById("guaranteeResult").innerText =
-`📅 Order Date: ${formatDate(orderDate)}
-🛡️ Guarantee Days: ${guaranteeDays}
-⌛ Days Used: ${daysUsed}
-📌 Expiration Date: ${formatDate(expirationDate)}
+  document.getElementById("guaranteeResult").innerText = `
+Order Date:
+${format(orderDate)}
 
-${status}`;
+Guarantee Days:
+${guaranteeDays}
+
+Days Used:
+${used}
+
+Expiration Date:
+${format(expiration)}
+
+${status}
+`;
+
 }
 
-// DISCOUNT CALCULATOR
-function calculateDiscounts() {
-  const amount = parseFloat(document.getElementById("discountAmount").value);
+// DISCOUNT
+function calculateDiscount(){
 
-  if (!amount) {
-    alert("Enter amount.");
-    return;
-  }
+  const amount =
+  parseFloat(document.getElementById("amount").value);
 
-  const discounts = [10, 35, 50, 70, 75];
+  const discounts = [10,35,50,70,75];
 
-  let output = "";
+  let result = "";
 
-  discounts.forEach(d => {
-    const discountAmount = amount * (d / 100);
-    const finalPrice = amount - discountAmount;
+  discounts.forEach(d=>{
 
-    output += `🔥 ${d}% Discount
-Discount Amount: $${discountAmount.toFixed(2)}
-Final Price: $${finalPrice.toFixed(2)}
+    const discountAmount =
+    amount * (d/100);
 
+    const finalPrice =
+    amount - discountAmount;
+
+    result += `
+${d}% Discount
+
+Discount Amount:
+$${discountAmount.toFixed(2)}
+
+Final Price:
+$${finalPrice.toFixed(2)}
+
+-------------------------
 `;
+
   });
 
-  document.getElementById("discountResult").innerText = output;
+  document.getElementById("discountResult").innerText = result;
+
 }
 
-// BUSINESS DAYS FUNCTION
-function addBusinessDays(date, days) {
-  const result = new Date(date);
+// BUSINESS DAYS
+function addBusinessDays(date,days){
+
+  let result = new Date(date);
+
   let added = 0;
 
-  while (added < days) {
-    result.setDate(result.getDate() + 1);
+  while(added < days){
 
-    const day = result.getDay();
+    result.setDate(result.getDate()+1);
 
-    if (day !== 0 && day !== 6) {
+    if(
+      result.getDay() !== 0 &&
+      result.getDay() !== 6
+    ){
       added++;
     }
+
   }
 
   return result;
+
 }
 
-// REFUND TIMEFRAME
-function calculateRefundWindow() {
-  const refundDate = new Date(document.getElementById("refundDate").value);
-  const range = document.getElementById("refundRange").value;
+// REFUND TRACKER
+function calculateRefund(){
 
-  if (!refundDate || range === "") {
-    alert("Please complete the fields.");
-    return;
-  }
+  const refundDate =
+  new Date(document.getElementById("refundDate").value);
 
-  const [minDays, maxDays] = range.split("-").map(Number);
+  const range =
+  document.getElementById("refundRange").value;
 
-  const fromDate = addBusinessDays(refundDate, minDays);
-  const toDate = addBusinessDays(refundDate, maxDays);
+  const [min,max] =
+  range.split("-").map(Number);
 
-  document.getElementById("refundResult").innerText =
-`📦 Expected Refund Processing Window
+  const fromDate =
+  addBusinessDays(refundDate,min);
 
-From: ${formatDate(fromDate)}
-To: ${formatDate(toDate)}`;
+  const toDate =
+  addBusinessDays(refundDate,max);
+
+  document.getElementById("refundResult").innerText = `
+Expected Processing Window
+
+FROM:
+${format(fromDate)}
+
+TO:
+${format(toDate)}
+`;
+
 }
 
-// AHT CONVERTER
-function convertTime() {
-  const totalSeconds = parseInt(document.getElementById("secondsInput").value);
+// AHT
+function convertAHT(){
 
-  if (isNaN(totalSeconds)) {
-    alert("Enter seconds.");
-    return;
-  }
+  const total =
+  parseInt(document.getElementById("seconds").value);
 
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
+  const hours =
+  Math.floor(total/3600);
 
-  document.getElementById("ahtResult").innerText =
-`⏱️ Time Converted
+  const minutes =
+  Math.floor((total%3600)/60);
 
-Hours: ${hours}
-Minutes: ${minutes}
-Seconds: ${seconds}`;
+  const seconds =
+  total%60;
+
+  document.getElementById("ahtResult").innerText = `
+Hours:
+${hours}
+
+Minutes:
+${minutes}
+
+Seconds:
+${seconds}
+`;
+
 }
 
-// NOTATION TEMPLATES
-function loadTemplate(type) {
-  const textarea = document.getElementById("notationText");
+// NOTATIONS
+function loadTemplate(type){
 
-  if (type === 1) {
+  const textarea =
+  document.getElementById("notationText");
+
+  if(type===1){
+
     textarea.value = `Agent Name: 
 REASON FOR CALLING: 
 OFFER SAVE: 
 THREAT: 
 RESOLUTION: 
 ACCOUNT STATUS:`;
+
   }
 
-  if (type === 2) {
+  if(type===2){
+
     textarea.value = `AGENT:
 REASON FOR CALLING:
 THREAT: 
@@ -178,9 +252,11 @@ phone number:
 email address: 
 order id: 
 product name:`;
+
   }
 
-  if (type === 3) {
+  if(type===3){
+
     textarea.value = `FOR NO ACCOUNT FOUND
 Campaign: 
 Order Date: 
@@ -190,26 +266,33 @@ Phone Number:
 Product Name: 
 Tracking Number: 
 Order ID:`;
+
   }
+
 }
 
-// COPY BUTTON
-function copyNotation() {
-  const textarea = document.getElementById("notationText");
+// COPY
+function copyText(){
 
-  textarea.select();
-  textarea.setSelectionRange(0, 99999);
+  const text =
+  document.getElementById("notationText");
 
-  navigator.clipboard.writeText(textarea.value);
+  navigator.clipboard.writeText(text.value);
 
-  alert("Copied to clipboard!");
+  alert("Copied!");
+
 }
 
-// FORMAT DATE
-function formatDate(date) {
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
+// DATE FORMAT
+function format(date){
+
+  return date.toLocaleDateString(
+    "en-US",
+    {
+      year:"numeric",
+      month:"long",
+      day:"numeric"
+    }
+  );
+
 }
