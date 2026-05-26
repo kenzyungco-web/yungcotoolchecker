@@ -1,160 +1,98 @@
-// Auto-fill today's date
-window.onload = () => {
-  const today = new Date().toISOString().split("T")[0];
-  document.getElementById("todayDate").value = today;
-  document.getElementById("refundDate").value = today;
-};
+// Set today's date auto-fill
+document.getElementById("todayDate").valueAsDate = new Date();
+document.getElementById("refundDate").valueAsDate = new Date();
+document.getElementById("deliveryDate").valueAsDate = new Date();
 
-// Navigation
-function showSection(id) {
-  const sections = document.querySelectorAll(".tool-section");
-
-  sections.forEach(section => {
-    section.classList.remove("active");
-  });
-
-  document.getElementById(id).classList.add("active");
-}
-
-// Dark Mode
-const darkModeBtn = document.getElementById("darkModeBtn");
-
-darkModeBtn.addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-});
-
-// Refresh Button
-document.getElementById("refreshBtn").addEventListener("click", () => {
-  location.reload();
+// Dark mode toggle
+document.getElementById("darkToggle").addEventListener("click", () => {
+  document.body.classList.toggle("dark");
 });
 
 // Money Back Guarantee Checker
 function checkGuarantee() {
-  const orderDate = new Date(document.getElementById("orderDate").value);
-  const guaranteeDays = parseInt(document.getElementById("guaranteeDays").value);
-  const today = new Date(document.getElementById("todayDate").value);
+  let order = new Date(document.getElementById("orderDate").value);
+  let days = parseInt(document.getElementById("guaranteedDays").value);
+  let today = new Date(document.getElementById("todayDate").value);
 
-  if (!orderDate || !guaranteeDays || !today) {
-    alert("Please fill all fields.");
-    return;
-  }
+  let expiry = new Date(order);
+  expiry.setDate(expiry.getDate() + days);
 
-  const expirationDate = new Date(orderDate);
-  expirationDate.setDate(expirationDate.getDate() + guaranteeDays);
+  let result = today <= expiry ? "Within guarantee period ✅" : "Expired ❌";
 
-  const usedDays = Math.floor((today - orderDate) / (1000 * 60 * 60 * 24));
-  const remainingDays = Math.floor((expirationDate - today) / (1000 * 60 * 60 * 24));
-
-  let status = "";
-
-  if (remainingDays >= 0) {
-    status = `
-      <strong>Refund Eligible ✅</strong><br>
-      Days Used: ${usedDays}<br>
-      Days Remaining: ${remainingDays}
-    `;
-  } else {
-    status = `
-      <strong>Guarantee Expired ❌</strong><br>
-      Expired By: ${Math.abs(remainingDays)} days
-    `;
-  }
-
-  document.getElementById("guaranteeResult").innerHTML = `
-    ${status}<br><br>
-    Expiration Date: ${expirationDate.toDateString()}
-  `;
+  document.getElementById("guaranteeResult").innerText =
+    `Expires on: ${expiry.toDateString()} | ${result}`;
 }
 
 // Discount Calculator
-function calculateDiscounts() {
-  const amount = parseFloat(document.getElementById("discountAmount").value);
+function calculateDiscount() {
+  let amount = parseFloat(document.getElementById("amount").value);
+  let discounts = [10, 35, 50, 70, 75];
 
-  if (!amount) {
-    alert("Enter amount.");
-    return;
-  }
+  let output = "<h4>Discount Results:</h4>";
 
-  const discounts = [10, 35, 50, 70, 75];
+  discounts.forEach(d => {
+    let discountAmt = (amount * d) / 100;
+    let finalPrice = amount - discountAmt;
 
-  let html = "";
-
-  discounts.forEach(percent => {
-    const discountAmount = amount * (percent / 100);
-    const finalPrice = amount - discountAmount;
-
-    html += `
-      <div>
-        <strong>${percent}% Discount</strong><br>
-        Discount Amount: ${discountAmount.toFixed(2)}<br>
-        Final Price: ${finalPrice.toFixed(2)}
-        <hr>
-      </div>
-    `;
+    output += `<p>${d}% → Discount: ${discountAmt.toFixed(2)}, Final: ${finalPrice.toFixed(2)}</p>`;
   });
 
-  document.getElementById("discountResult").innerHTML = html;
+  document.getElementById("discountResult").innerHTML = output;
 }
 
-// Refund Timeframe Tracker
-function trackRefund() {
-  const refundDate = new Date(document.getElementById("refundDate").value);
-  const option = document.getElementById("refundOption").value;
+// Refund Tracker (business days only)
+function addBusinessDays(startDate, days) {
+  let date = new Date(startDate);
+  let added = 0;
 
-  let minDays, maxDays;
-
-  if (option === "3-5") {
-    minDays = 3;
-    maxDays = 5;
-  } else {
-    minDays = 7;
-    maxDays = 14;
-  }
-
-  const fromDate = addBusinessDays(refundDate, minDays);
-  const toDate = addBusinessDays(refundDate, maxDays);
-
-  document.getElementById("refundResult").innerHTML = `
-    <strong>Expected Processing Window</strong><br><br>
-    From: ${fromDate.toDateString()}<br>
-    To: ${toDate.toDateString()}
-  `;
-}
-
-function addBusinessDays(date, days) {
-  let result = new Date(date);
-  let count = 0;
-
-  while (count < days) {
-    result.setDate(result.getDate() + 1);
-
-    const day = result.getDay();
-
-    if (day !== 0 && day !== 6) {
-      count++;
+  while (added < days) {
+    date.setDate(date.getDate() + 1);
+    if (date.getDay() !== 0 && date.getDay() !== 6) {
+      added++;
     }
   }
+  return date;
+}
 
-  return result;
+function calculateRefund() {
+  let start = document.getElementById("refundDate").value;
+  let type = document.getElementById("refundType").value;
+
+  let [min, max] = type.split("-").map(Number);
+
+  let from = addBusinessDays(start, min);
+  let to = addBusinessDays(start, max);
+
+  document.getElementById("refundResult").innerText =
+    `From: ${from.toDateString()} To: ${to.toDateString()}`;
 }
 
 // AHT Converter
-function convertAHT() {
-  const seconds = parseInt(document.getElementById("secondsInput").value);
+function convertTime() {
+  let sec = parseInt(document.getElementById("secondsInput").value);
 
-  if (isNaN(seconds)) {
-    alert("Enter seconds.");
-    return;
-  }
+  let h = Math.floor(sec / 3600);
+  let m = Math.floor((sec % 3600) / 60);
+  let s = sec % 60;
 
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const remainingSeconds = seconds % 60;
-
-  document.getElementById("ahtResult").innerHTML = `
-    <strong>Converted Time</strong><br><br>
-    Hours: ${hours}<br>
-    Minutes: ${minutes}<br>
-    Seconds: ${remainingSeconds}
-  `;
+  document.getElementById("ahtResult").innerText =
+    `${h}h ${m}m ${s}s`;
 }
+
+// Parcel Tracker
+function trackParcel() {
+  let address = document.getElementById("address").value;
+  let update = document.getElementById("latestUpdate").value;
+  let date = document.getElementById("deliveryDate").value;
+
+  document.getElementById("parcelResult").innerText =
+    `Delivered to ${address} on ${date}. Latest update: ${update}`;
+}
+
+// Realtime Clock
+function updateClock() {
+  let now = new Date();
+  document.getElementById("clock").innerText = now.toLocaleTimeString();
+}
+setInterval(updateClock, 1000);
+updateClock();
