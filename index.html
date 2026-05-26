@@ -4,53 +4,56 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Utility Tool</title>
+
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
+<!-- HEADER -->
 <header>
   <div class="logo">
     🌿 Utility Tool
   </div>
 
-  <div class="top-actions">
-    <button id="darkToggle">🌙</button>
+  <div class="header-buttons">
+    <button id="darkModeBtn">🌙</button>
     <button onclick="location.reload()">🔄</button>
   </div>
 </header>
 
-<!-- HOME -->
-<section id="home" class="page active">
+<!-- HOME PAGE -->
+<section id="homePage" class="page active">
 
   <div class="hero">
     <h1>💊 Wellness Utility Hub</h1>
-    <p>Professional support tools for supplement campaigns</p>
+    <p>Professional support toolkit for supplement campaigns</p>
   </div>
 
-  <div class="grid">
+  <div class="card-grid">
 
-    <div class="card" onclick="showPage('guarantee')">
-      <div class="icon">🛡️</div>
+    <div class="tool-card" onclick="showPage('guaranteePage')">
+      <div class="emoji">🛡️</div>
       <h3>Money Back Guarantee</h3>
     </div>
 
-    <div class="card" onclick="showPage('discount')">
-      <div class="icon">💸</div>
+    <div class="tool-card" onclick="showPage('discountPage')">
+      <div class="emoji">💸</div>
       <h3>Discount Calculator</h3>
     </div>
 
-    <div class="card" onclick="showPage('refund')">
-      <div class="icon">📦</div>
+    <div class="tool-card" onclick="showPage('refundPage')">
+      <div class="emoji">📦</div>
       <h3>Refund Tracker</h3>
     </div>
 
-    <div class="card" onclick="showPage('aht')">
-      <div class="icon">⏱️</div>
+    <div class="tool-card" onclick="showPage('ahtPage')">
+      <div class="emoji">⏱️</div>
       <h3>AHT Converter</h3>
     </div>
 
-    <div class="card" onclick="showPage('notation')">
-      <div class="icon">📝</div>
+    <div class="tool-card" onclick="showPage('notationPage')">
+      <div class="emoji">📝</div>
       <h3>Notations Format</h3>
     </div>
 
@@ -58,8 +61,9 @@
 
 </section>
 
-<!-- GUARANTEE -->
-<section id="guarantee" class="page">
+<!-- GUARANTEE PAGE -->
+<section id="guaranteePage" class="page">
+
   <div class="container">
 
     <h2>🛡️ Money Back Guarantee Checker</h2>
@@ -73,35 +77,43 @@
     <label>Today's Date</label>
     <input type="date" id="todayDate">
 
-    <button onclick="checkGuarantee()">Check</button>
+    <button onclick="checkGuarantee()">Check Guarantee</button>
 
-    <div class="result" id="guaranteeResult"></div>
+    <div class="result-box" id="guaranteeResult"></div>
 
-    <button class="back" onclick="showPage('home')">⬅ Back Home</button>
+    <button class="back-btn" onclick="showPage('homePage')">
+      ⬅ Back to Home
+    </button>
 
   </div>
+
 </section>
 
-<!-- DISCOUNT -->
-<section id="discount" class="page">
+<!-- DISCOUNT PAGE -->
+<section id="discountPage" class="page">
+
   <div class="container">
 
     <h2>💸 Discount Calculator</h2>
 
     <label>Amount</label>
-    <input type="number" id="amount">
+    <input type="number" id="discountAmount">
 
-    <button onclick="calculateDiscount()">Calculate</button>
+    <button onclick="calculateDiscounts()">Calculate Discounts</button>
 
-    <div class="result" id="discountResult"></div>
+    <div class="result-box" id="discountResult"></div>
 
-    <button class="back" onclick="showPage('home')">⬅ Back Home</button>
+    <button class="back-btn" onclick="showPage('homePage')">
+      ⬅ Back to Home
+    </button>
 
   </div>
+
 </section>
 
-<!-- REFUND -->
-<section id="refund" class="page">
+<!-- REFUND PAGE -->
+<section id="refundPage" class="page">
+
   <div class="container">
 
     <h2>📦 Refund Timeframe Tracker</h2>
@@ -109,61 +121,76 @@
     <label>Refund Request Date</label>
     <input type="date" id="refundDate">
 
-    <label>Timeframe</label>
+    <label>Select Timeframe</label>
     <select id="refundRange">
       <option value="3-5">3-5 Business Days</option>
       <option value="7-14">7-14 Business Days</option>
     </select>
 
-    <button onclick="calculateRefund()">Track</button>
+    <button onclick="calculateRefund()">Track Refund</button>
 
-    <div class="result" id="refundResult"></div>
+    <div class="result-box" id="refundResult"></div>
 
-    <button class="back" onclick="showPage('home')">⬅ Back Home</button>
+    <button class="back-btn" onclick="showPage('homePage')">
+      ⬅ Back to Home
+    </button>
 
   </div>
+
 </section>
 
-<!-- AHT -->
-<section id="aht" class="page">
+<!-- AHT PAGE -->
+<section id="ahtPage" class="page">
+
   <div class="container">
 
     <h2>⏱️ AHT Time Converter</h2>
 
     <label>Seconds</label>
-    <input type="number" id="seconds">
+    <input type="number" id="secondsInput">
 
     <button onclick="convertAHT()">Convert</button>
 
-    <div class="result" id="ahtResult"></div>
+    <div class="result-box" id="ahtResult"></div>
 
-    <button class="back" onclick="showPage('home')">⬅ Back Home</button>
+    <button class="back-btn" onclick="showPage('homePage')">
+      ⬅ Back to Home
+    </button>
 
   </div>
+
 </section>
 
-<!-- NOTATION -->
-<section id="notation" class="page">
+<!-- NOTATION PAGE -->
+<section id="notationPage" class="page">
 
   <div class="container">
 
     <h2>📝 Notations Format</h2>
 
-    <div class="templateButtons">
+    <div class="template-buttons">
+
       <button onclick="loadTemplate(1)">Type 1</button>
+
       <button onclick="loadTemplate(2)">Type 2</button>
+
       <button onclick="loadTemplate(3)">Type 3</button>
-      <button onclick="copyText()">📋 Copy</button>
+
+      <button onclick="copyNotation()">📋 Copy</button>
+
     </div>
 
     <textarea id="notationText"></textarea>
 
-    <button class="back" onclick="showPage('home')">⬅ Back Home</button>
+    <button class="back-btn" onclick="showPage('homePage')">
+      ⬅ Back to Home
+    </button>
 
   </div>
 
 </section>
 
 <script src="script.js"></script>
+
 </body>
 </html>
