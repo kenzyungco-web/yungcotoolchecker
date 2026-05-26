@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Utility Tool</title>
-  <link rel="stylesheet" href="styles.css"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Utility Tool SPA</title>
+<link rel="stylesheet" href="styles.css"/>
 </head>
 
 <body>
@@ -13,7 +13,7 @@
 <header class="topbar">
   <div class="left">
     <div class="cat">🐱</div>
-    <div id="clock" class="clock">--:--:--</div>
+    <div id="clock">--:--:--</div>
   </div>
 
   <div class="right">
@@ -22,96 +22,8 @@
   </div>
 </header>
 
-<!-- HOME -->
-<section id="home" class="page active">
-  <h1>Utility Tool Dashboard</h1>
-
-  <div class="grid">
-    <button onclick="openPage('guarantee')">Money Back Checker</button>
-    <button onclick="openPage('discount')">Discount Calculator</button>
-    <button onclick="openPage('refund')">Refund Tracker</button>
-    <button onclick="openPage('aht')">AHT Converter</button>
-    <button onclick="openPage('notation')">Notations</button>
-  </div>
-</section>
-
-<!-- GUARANTEE -->
-<section id="guarantee" class="page">
-  <h2>Money Back Guarantee Checker</h2>
-
-  <div class="card">
-    <input type="date" id="orderDate">
-    <input type="number" id="guaranteeDays" placeholder="Guarantee Days">
-    <input type="date" id="todayDate">
-    <button onclick="checkGuarantee()">Check</button>
-
-    <div id="guaranteeOut" class="result"></div>
-    <button class="back" onclick="openPage('home')">Back</button>
-  </div>
-</section>
-
-<!-- DISCOUNT -->
-<section id="discount" class="page">
-  <h2>Discount Calculator</h2>
-
-  <div class="card">
-    <input type="number" id="amount" placeholder="Enter Amount">
-    <button onclick="calcDiscount()">Calculate</button>
-
-    <div id="discountOut" class="result"></div>
-    <button class="back" onclick="openPage('home')">Back</button>
-  </div>
-</section>
-
-<!-- REFUND -->
-<section id="refund" class="page">
-  <h2>Refund Tracker</h2>
-
-  <div class="card">
-    <input type="date" id="refundDate">
-
-    <select id="refundRange">
-      <option value="3-5">3–5 Business Days</option>
-      <option value="7-14">7–14 Business Days</option>
-    </select>
-
-    <button onclick="calcRefund()">Calculate</button>
-
-    <div id="refundOut" class="result"></div>
-    <button class="back" onclick="openPage('home')">Back</button>
-  </div>
-</section>
-
-<!-- AHT -->
-<section id="aht" class="page">
-  <h2>AHT Time Converter</h2>
-
-  <div class="card">
-    <input type="number" id="seconds" placeholder="Seconds">
-    <button onclick="convert()">Convert</button>
-
-    <div id="ahtOut" class="result"></div>
-    <button class="back" onclick="openPage('home')">Back</button>
-  </div>
-</section>
-
-<!-- NOTATION -->
-<section id="notation" class="page">
-  <h2>Notations Format</h2>
-
-  <div class="card">
-    <div class="btnRow">
-      <button onclick="template(1)">Type 1</button>
-      <button onclick="template(2)">Type 2</button>
-      <button onclick="template(3)">Type 3</button>
-      <button onclick="copyText()">Copy</button>
-    </div>
-
-    <textarea id="noteBox"></textarea>
-
-    <button class="back" onclick="openPage('home')">Back</button>
-  </div>
-</section>
+<!-- APP ROOT -->
+<main id="app" class="view-container"></main>
 
 <script src="script.js"></script>
 </body>
