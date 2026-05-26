@@ -1,101 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Customer Dashboard</title>
-
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Utility Tool</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-
-  <!-- HEADER -->
   <header>
-    <h1>Customer Service Utility Dashboard</h1>
+    <div class="logo">
+      🍃 Utility Tool
+    </div>
 
-    <div class="top-bar">
-      <div id="clock">00:00:00</div>
-
-      <button id="darkBtn">
-        Dark Mode
-      </button>
+    <div class="top-buttons">
+      <button id="darkModeToggle">🌙 Dark Mode</button>
+      <button id="refreshPage">🔄 Refresh</button>
     </div>
   </header>
 
-  <!-- DASHBOARD -->
-  <div class="dashboard">
-
-    <!-- MONEYBACK -->
-    <div class="card">
-
-      <h2>Moneyback Guarantee Checker</h2>
-
-      <input type="date" id="purchaseDate">
-
-      <input type="number" id="days" placeholder="Guarantee Days">
-
-      <button onclick="checkGuarantee()">
-        Check
-      </button>
-
-      <div id="guaranteeResult"></div>
-
+  <!-- HOME -->
+  <section id="home" class="page active">
+    <div class="hero">
+      <h1>💊 Supplement Utility Hub</h1>
+      <p>Your all-in-one professional support toolkit</p>
     </div>
 
-    <!-- AHT -->
-    <div class="card">
-
-      <h2>AHT Time Converter</h2>
-
-      <input type="number" id="seconds" placeholder="Enter Seconds">
-
-      <button onclick="convertTime()">
-        Convert
+    <div class="card-grid">
+      <button class="nav-card" onclick="showPage('guarantee')">
+        🛡️
+        <span>Money Back Guarantee Checker</span>
       </button>
 
-      <div id="timeResult"></div>
-
-    </div>
-
-    <!-- REFUND -->
-    <div class="card">
-
-      <h2>Refund Calculator</h2>
-
-      <input type="number" id="price" placeholder="Product Price">
-
-      <input type="number" id="percent" placeholder="Refund %">
-
-      <input type="number" id="fee" placeholder="Processing Fee">
-
-      <button onclick="calculateRefund()">
-        Calculate
+      <button class="nav-card" onclick="showPage('discount')">
+        💸
+        <span>Discount Calculator</span>
       </button>
 
-      <div id="refundResult"></div>
-
-    </div>
-
-    <!-- PRODUCT -->
-    <div class="card">
-
-      <h2>Product Search</h2>
-
-      <input type="text" id="productSearch" placeholder="Product Name or ID">
-
-      <button onclick="searchProduct()">
-        Search
+      <button class="nav-card" onclick="showPage('refund')">
+        📦
+        <span>Refund Timeframe Tracker</span>
       </button>
 
-      <div id="productResult"></div>
+      <button class="nav-card" onclick="showPage('aht')">
+        ⏱️
+        <span>AHT Time Converter</span>
+      </button>
 
+      <button class="nav-card" onclick="showPage('notations')">
+        📝
+        <span>Notations Format</span>
+      </button>
     </div>
+  </section>
 
-  </div>
+  <!-- GUARANTEE -->
+  <section id="guarantee" class="page">
+    <div class="container">
+      <h2>🛡️ Money Back Guarantee Checker</h2>
+
+      <label>Order Date</label>
+      <input type="date" id="orderDate" />
+
+      <label>Guarantee Days</label>
+      <input type="number" id="guaranteeDays" placeholder="Enter guarantee days" />
+
+      <label>Today's Date</label>
+      <input type="date" id="todayDate" />
+
+      <button onclick="checkGuarantee()">Check Guarantee</button>
+
+      <div id="guaranteeResult" class="result-box"></div>
+
+      <button class="back-btn" onclick="showPage('home')">⬅ Back to Home</button>
+    </div>
+  </section>
+
+  <!-- DISCOUNT -->
+  <section id="discount" class="page">
+    <div class="container">
+      <h2>💸 Discount Calculator</h2>
+
+      <label>Amount</label>
+      <input type="number" id="discountAmount" placeholder="Enter amount" />
+
+      <button onclick="calculateDiscounts()">Calculate</button>
+
+      <div id="discountResult" class="result-box"></div>
+
+      <button class="back-btn" onclick="showPage('home')">⬅ Back to Home</button>
+    </div>
+  </section>
+
+  <!-- REFUND -->
+  <section id="refund" class="page">
+    <div class="container">
+      <h2>📦 Refund Timeframe Tracker</h2>
+
+      <label>Refund Request Date</label>
+      <input type="date" id="refundDate" />
+
+      <label>Select Timeframe</label>
+      <select id="refundRange">
+        <option value="3-5">3-5 Business Days</option>
+        <option value="7-14">7-14 Business Days</option>
+      </select>
+
+      <button onclick="calculateRefundWindow()">Track Refund</button>
+
+      <div id="refundResult" class="result-box"></div>
+
+      <button class="back-btn" onclick="showPage('home')">⬅ Back to Home</button>
+    </div>
+  </section>
+
+  <!-- AHT -->
+  <section id="aht" class="page">
+    <div class="container">
+      <h2>⏱️ AHT Time Converter</h2>
+
+      <label>Seconds</label>
+      <input type="number" id="secondsInput" placeholder="Enter seconds" />
+
+      <button onclick="convertTime()">Convert</button>
+
+      <div id="ahtResult" class="result-box"></div>
+
+      <button class="back-btn" onclick="showPage('home')">⬅ Back to Home</button>
+    </div>
+  </section>
+
+  <!-- NOTATIONS -->
+  <section id="notations" class="page">
+    <div class="container">
+      <h2>📝 Notations Format</h2>
+
+      <div class="template-buttons">
+        <button onclick="loadTemplate(1)">📄 Type 1</button>
+        <button onclick="loadTemplate(2)">📄 Type 2</button>
+        <button onclick="loadTemplate(3)">📄 Type 3</button>
+        <button onclick="copyNotation()">📋 Copy</button>
+      </div>
+
+      <textarea id="notationText"></textarea>
+
+      <button class="back-btn" onclick="showPage('home')">⬅ Back to Home</button>
+    </div>
+  </section>
 
   <script src="script.js"></script>
-
 </body>
 </html>
