@@ -1,161 +1,137 @@
-// Navigation
-function showSection(id) {
-  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+// NAV
+function openPage(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-// Dark Mode
-document.getElementById("darkToggle").addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-});
-
-// Clock
-function updateClock() {
-  const now = new Date();
+// CLOCK
+setInterval(()=>{
   document.getElementById("clock").textContent =
-    now.toLocaleTimeString();
-}
-setInterval(updateClock, 1000);
-updateClock();
+    new Date().toLocaleTimeString();
+},1000);
 
-// Guarantee Checker
-function checkGuarantee() {
-  const order = new Date(document.getElementById("orderDate").value);
-  const days = parseInt(document.getElementById("guaranteeDays").value);
-  const today = new Date(document.getElementById("todayDate").value);
+// THEME
+document.getElementById("themeBtn").onclick = () =>{
+  document.body.classList.toggle("light");
+};
 
-  if (!order || !today || isNaN(days)) return;
+// -------------------- GUARANTEE --------------------
+function checkGuarantee(){
+  const order = new Date(orderDate.value);
+  const days = parseInt(guaranteeDays.value);
+  const today = new Date(todayDate.value);
 
-  const expiry = new Date(order);
+  if(!order || !today || isNaN(days)) return;
+
+  let expiry = new Date(order);
   expiry.setDate(expiry.getDate() + days);
 
-  const diffTime = today - order;
-  const used = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  let diff = Math.floor((today - order)/(1000*60*60*24));
+  let remaining = Math.floor((expiry - today)/(1000*60*60*24));
 
-  let remaining = Math.floor((expiry - today) / (1000 * 60 * 60 * 24));
-
-  let status = today <= expiry ? "Eligible for Refund" : "Not Eligible";
-
-  document.getElementById("guaranteeOutput").innerHTML = `
-    <p><b>Order Date:</b> ${order.toDateString()}</p>
-    <p><b>Today:</b> ${today.toDateString()}</p>
-    <p><b>Guarantee Days:</b> ${days}</p>
-    <p><b>Expiry Date:</b> ${expiry.toDateString()}</p>
-    <p><b>Days Used:</b> ${used}</p>
-    <p><b>${remaining >= 0 ? "Days Remaining" : "Days Expired"}:</b> ${Math.abs(remaining)}</p>
-    <p><b>Status:</b> ${status}</p>
+  guaranteeOut.innerHTML = `
+    <p>Expiry: ${expiry.toDateString()}</p>
+    <p>Used: ${diff} days</p>
+    <p>${remaining >= 0 ? "Remaining" : "Expired"}: ${Math.abs(remaining)} days</p>
+    <p>Status: ${today <= expiry ? "Eligible" : "Not Eligible"}</p>
   `;
 }
 
-// Discount Calculator
-function calculateDiscount() {
-  const amount = parseFloat(document.getElementById("amount").value);
-  if (!amount) return;
+// -------------------- DISCOUNT --------------------
+function calcDiscount(){
+  const a = parseFloat(amount.value);
+  if(isNaN(a)) return;
 
-  const rates = [10, 35, 50, 70, 75];
-  let html = "";
-
-  rates.forEach(r => {
-    let discount = (amount * r) / 100;
-    let final = amount - discount;
-
-    html += `<p>${r}% → Discount: ${discount.toFixed(2)}, Final: ${final.toFixed(2)}</p>`;
-  });
-
-  document.getElementById("discountOutput").innerHTML = html;
+  const rates = [10,35,50,70,75];
+  discountOut.innerHTML = rates.map(r=>{
+    let d = (a*r)/100;
+    return `${r}% → Discount: ${d.toFixed(2)} | Final: ${(a-d).toFixed(2)}`;
+  }).join("<br>");
 }
 
-// Business days helper
-function addBusinessDays(date, days) {
-  let result = new Date(date);
-  let added = 0;
+// -------------------- REFUND --------------------
+function addBD(date,days){
+  let d = new Date(date);
+  let count=0;
 
-  while (added < days) {
-    result.setDate(result.getDate() + 1);
-    if (result.getDay() !== 0 && result.getDay() !== 6) {
-      added++;
-    }
+  while(count<days){
+    d.setDate(d.getDate()+1);
+    if(d.getDay()!=0 && d.getDay()!=6) count++;
   }
-  return result;
+  return d;
 }
 
-// Refund tracker
-function calculateRefund() {
-  const start = new Date(document.getElementById("refundDate").value);
-  const range = document.getElementById("refundRange").value.split("-");
+function calcRefund(){
+  const start = new Date(refundDate.value);
+  const [min,max] = refundRange.value.split("-").map(Number);
 
-  if (!start) return;
+  if(!start) return;
 
-  const min = addBusinessDays(start, parseInt(range[0]));
-  const max = addBusinessDays(start, parseInt(range[1]));
+  let from = addBD(start,min);
+  let to = addBD(start,max);
 
-  document.getElementById("refundOutput").innerHTML = `
-    <p><b>From:</b> ${min.toDateString()}</p>
-    <p><b>To:</b> ${max.toDateString()}</p>
+  refundOut.innerHTML = `
+    From: ${from.toDateString()}<br>
+    To: ${to.toDateString()}
   `;
 }
 
-// AHT Converter
-function convertTime() {
-  let sec = parseInt(document.getElementById("secondsInput").value);
-  if (isNaN(sec)) return;
+// -------------------- AHT --------------------
+function convert(){
+  let s = parseInt(seconds.value);
+  if(isNaN(s)) return;
 
-  let h = Math.floor(sec / 3600);
-  sec %= 3600;
-  let m = Math.floor(sec / 60);
-  let s = sec % 60;
+  let h = Math.floor(s/3600);
+  s%=3600;
+  let m = Math.floor(s/60);
+  let sec = s%60;
 
-  document.getElementById("ahtOutput").innerHTML =
-    `<p>${h}h ${m}m ${s}s</p>`;
+  ahtOut.innerHTML = `${h}h ${m}m ${sec}s`;
 }
 
-// Notation Templates
-function setTemplate(type) {
-  const box = document.getElementById("notationBox");
-
-  if (type === 1) {
-    box.value =
-`Agent Name: 
-REASON FOR CALLING: 
-OFFER SAVE: 
-THREAT: 
-RESOLUTION: 
+// -------------------- NOTATION --------------------
+function template(t){
+  if(t==1){
+    noteBox.value =
+`Agent Name:
+REASON FOR CALLING:
+OFFER SAVE:
+THREAT:
+RESOLUTION:
 ACCOUNT STATUS:`;
   }
 
-  if (type === 2) {
-    box.value =
+  if(t==2){
+    noteBox.value =
 `AGENT:
 REASON FOR CALLING:
-THREAT: 
+THREAT:
 SAVE OFFER:
 RESOLUTION:
 STATUS:
 
 campaign:
-name: 
-phone number: 
-email address: 
-order id: 
+name:
+phone number:
+email address:
+order id:
 product name:`;
   }
 
-  if (type === 3) {
-    box.value =
+  if(t==3){
+    noteBox.value =
 `FOR NO ACCOUNT FOUND
-Campaign: 
-Order Date: 
-Email: 
-Name: 
-Phone Number: 
-Product Name: 
-Tracking Number: 
+Campaign:
+Order Date:
+Email:
+Name:
+Phone Number:
+Product Name:
+Tracking Number:
 Order ID:`;
   }
 }
 
-// Copy
-function copyText() {
-  const box = document.getElementById("notationBox");
-  navigator.clipboard.writeText(box.value);
+function copyText(){
+  navigator.clipboard.writeText(noteBox.value);
 }
