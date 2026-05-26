@@ -1,244 +1,204 @@
-// ---------------- CLOCK ----------------
-setInterval(()=>{
-  document.getElementById("clock").textContent =
-    new Date().toLocaleTimeString();
-},1000);
-
-// ---------------- THEME ----------------
-document.getElementById("themeBtn").onclick = () =>{
-  document.body.classList.toggle("light");
-};
-
-// ---------------- MINI SPA ROUTER ----------------
-const app = document.getElementById("app");
-
-const views = {
-  home: () => `
-    <div class="page">
-      <h1>Utility Tool SPA</h1>
-
-      <div class="grid">
-        <button class="nav-btn" onclick="navigate('guarantee')">Money Back Checker</button>
-        <button class="nav-btn" onclick="navigate('discount')">Discount Calculator</button>
-        <button class="nav-btn" onclick="navigate('refund')">Refund Tracker</button>
-        <button class="nav-btn" onclick="navigate('aht')">AHT Converter</button>
-        <button class="nav-btn" onclick="navigate('notation')">Notations</button>
-      </div>
-    </div>
-  `,
-
-  guarantee: () => `
-    <div class="page">
-      <h2>Money Back Checker</h2>
-      <div class="card">
-        <input type="date" id="order">
-        <input type="number" id="days" placeholder="Guarantee Days">
-        <input type="date" id="today">
-
-        <button onclick="checkGuarantee()">Calculate</button>
-        <div id="out"></div>
-
-        <button class="back" onclick="navigate('home')">Back</button>
-      </div>
-    </div>
-  `,
-
-  discount: () => `
-    <div class="page">
-      <h2>Discount Calculator</h2>
-      <div class="card">
-        <input type="number" id="amt" placeholder="Amount">
-        <button onclick="calcDiscount()">Calculate</button>
-        <div id="out"></div>
-        <button class="back" onclick="navigate('home')">Back</button>
-      </div>
-    </div>
-  `,
-
-  refund: () => `
-    <div class="page">
-      <h2>Refund Tracker</h2>
-      <div class="card">
-        <input type="date" id="rdate">
-        <select id="range">
-          <option value="3-5">3-5 Days</option>
-          <option value="7-14">7-14 Days</option>
-        </select>
-
-        <button onclick="calcRefund()">Calculate</button>
-        <div id="out"></div>
-        <button class="back" onclick="navigate('home')">Back</button>
-      </div>
-    </div>
-  `,
-
-  aht: () => `
-    <div class="page">
-      <h2>AHT Converter</h2>
-      <div class="card">
-        <input type="number" id="sec" placeholder="Seconds">
-        <button onclick="convert()">Convert</button>
-        <div id="out"></div>
-        <button class="back" onclick="navigate('home')">Back</button>
-      </div>
-    </div>
-  `,
-
-  notation: () => `
-    <div class="page">
-      <h2>Notations</h2>
-
-      <div class="card">
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <button onclick="tpl(1)">Type 1</button>
-          <button onclick="tpl(2)">Type 2</button>
-          <button onclick="tpl(3)">Type 3</button>
-          <button onclick="copy()">Copy</button>
-        </div>
-
-        <textarea id="box"></textarea>
-        <button class="back" onclick="navigate('home')">Back</button>
-      </div>
-    </div>
-  `
-};
-
-// ---------------- NAVIGATION WITH ANIMATION ----------------
-function navigate(page){
-  app.style.opacity = 0;
-  app.style.transform = "translateY(10px)";
-
-  setTimeout(()=>{
-    location.hash = page;
-    render(page);
-
-    app.style.opacity = 1;
-    app.style.transform = "translateY(0)";
-  },150);
+/* CLOCK */
+ 
+function updateClock(){
+ 
+  const now = new Date();
+ 
+  document.getElementById("clock").innerHTML =
+    now.toLocaleTimeString();
 }
-
-function render(page){
-  app.innerHTML = views[page] ? views[page]() : views.home();
-}
-
-// default route
-window.addEventListener("load",()=>{
-  const page = location.hash.replace("#","") || "home";
-  render(page);
-});
-
-// ---------------- FUNCTIONS ----------------
-
-// Guarantee
+ 
+setInterval(updateClock,1000);
+ 
+updateClock();
+ 
+/* DARK MODE */
+ 
+document
+.getElementById("darkBtn")
+.onclick = function(){
+ 
+  document.body.classList.toggle("dark");
+};
+ 
+/* MONEYBACK CHECKER */
+ 
 function checkGuarantee(){
-  const o = new Date(order.value);
-  const d = +days.value;
-  const t = new Date(today.value);
-
-  let exp = new Date(o);
-  exp.setDate(exp.getDate()+d);
-
-  let diff = Math.floor((t-o)/86400000);
-  let rem = Math.floor((exp-t)/86400000);
-
-  out.innerHTML = `
-    <div class="result">
-      Expiry: ${exp.toDateString()}<br>
-      Used: ${diff} days<br>
-      ${rem>=0?"Remaining":"Expired"}: ${Math.abs(rem)} days
-    </div>
+ 
+  const purchase =
+    document.getElementById("purchaseDate").value;
+ 
+  const days =
+    parseInt(document.getElementById("days").value);
+ 
+  const result =
+    document.getElementById("guaranteeResult");
+ 
+  if(!purchase || !days){
+ 
+    result.innerHTML =
+      "Please fill all fields";
+ 
+    return;
+  }
+ 
+  const purchaseDate = new Date(purchase);
+ 
+  const expiry = new Date(purchaseDate);
+ 
+  expiry.setDate(expiry.getDate() + days);
+ 
+  const today = new Date();
+ 
+  if(today <= expiry){
+ 
+    result.innerHTML =
+      `<span style="color:lightgreen">
+      Eligible for Refund
+</span>`;
+ 
+  }else{
+ 
+    result.innerHTML =
+      `<span style="color:red">
+      Guarantee Expired
+</span>`;
+  }
+}
+ 
+/* AHT CONVERTER */
+ 
+function convertTime(){
+ 
+  const seconds =
+    parseInt(document.getElementById("seconds").value);
+ 
+  const result =
+    document.getElementById("timeResult");
+ 
+  if(isNaN(seconds)){
+ 
+    result.innerHTML =
+      "Enter valid seconds";
+ 
+    return;
+  }
+ 
+  const minutes =
+    (seconds/60).toFixed(2);
+ 
+  const hours =
+    (seconds/3600).toFixed(2);
+ 
+  const hh =
+    String(Math.floor(seconds/3600))
+    .padStart(2,"0");
+ 
+  const mm =
+    String(Math.floor((seconds%3600)/60))
+    .padStart(2,"0");
+ 
+  const ss =
+    String(seconds%60)
+    .padStart(2,"0");
+ 
+  result.innerHTML = `
+<p>Minutes: ${minutes}</p>
+<p>Hours: ${hours}</p>
+<p>HH:MM:SS: ${hh}:${mm}:${ss}</p>
   `;
 }
-
-// Discount
-function calcDiscount(){
-  let a = +amt.value;
-  const r = [10,35,50,70,75];
-
-  out.innerHTML = r.map(x=>{
-    let d = a*x/100;
-    return `${x}% → ${d.toFixed(2)} (Final ${(a-d).toFixed(2)})`;
-  }).join("<br>");
-}
-
-// Refund
-function addBD(d,n){
-  let x = new Date(d);
-  let c=0;
-  while(c<n){
-    x.setDate(x.getDate()+1);
-    if(x.getDay()!=0 && x.getDay()!=6) c++;
+ 
+/* REFUND CALCULATOR */
+ 
+function calculateRefund(){
+ 
+  const price =
+    parseFloat(document.getElementById("price").value);
+ 
+  const percent =
+    parseFloat(document.getElementById("percent").value);
+ 
+  const fee =
+    parseFloat(document.getElementById("fee").value);
+ 
+  const result =
+    document.getElementById("refundResult");
+ 
+  if(isNaN(price) || isNaN(percent) || isNaN(fee)){
+ 
+    result.innerHTML =
+      "Please fill all fields";
+ 
+    return;
   }
-  return x;
-}
-
-function calcRefund(){
-  const [min,max]=range.value.split("-").map(Number);
-
-  let from = addBD(rdate.value,min);
-  let to = addBD(rdate.value,max);
-
-  out.innerHTML = `
-    <div class="result">
-      From: ${from.toDateString()}<br>
-      To: ${to.toDateString()}
-    </div>
+ 
+  const refund =
+    (price * percent / 100) - fee;
+ 
+  result.innerHTML = `
+<h3>Final Refund</h3>
+<p>$${refund.toFixed(2)}</p>
   `;
 }
-
-// AHT
-function convert(){
-  let s = +sec.value;
-  let h=Math.floor(s/3600);
-  s%=3600;
-  let m=Math.floor(s/60);
-  let sec2=s%60;
-
-  out.innerHTML = `<div class="result">${h}h ${m}m ${sec2}s</div>`;
-}
-
-// Notation
-function tpl(t){
-  const box=document.getElementById("box");
-
-  if(t==1){
-    box.value=`Agent Name:
-REASON FOR CALLING:
-OFFER SAVE:
-THREAT:
-RESOLUTION:
-ACCOUNT STATUS:`;
+ 
+/* PRODUCT DATA */
+ 
+const products = [
+ 
+  {
+    id:"P1001",
+    name:"Wireless Mouse",
+    category:"Accessories",
+    warranty:"1 Year",
+    refund:"30 Days",
+    price:"$25"
+  },
+ 
+  {
+    id:"P1002",
+    name:"Gaming Keyboard",
+    category:"Gaming",
+    warranty:"2 Years",
+    refund:"15 Days",
+    price:"$80"
   }
-
-  if(t==2){
-    box.value=`AGENT:
-REASON FOR CALLING:
-THREAT:
-SAVE OFFER:
-RESOLUTION:
-STATUS:
-
-campaign:
-name:
-phone number:
-email address:
-order id:
-product name:`;
+ 
+];
+ 
+/* SEARCH PRODUCT */
+ 
+function searchProduct(){
+ 
+  const query =
+    document.getElementById("productSearch")
+    .value
+    .toLowerCase();
+ 
+  const result =
+    document.getElementById("productResult");
+ 
+  const found =
+    products.find(product =>
+ 
+      product.id.toLowerCase() === query ||
+ 
+      product.name.toLowerCase().includes(query)
+    );
+ 
+  if(found){
+ 
+    result.innerHTML = `
+<h3>${found.name}</h3>
+<p>Category: ${found.category}</p>
+<p>Warranty: ${found.warranty}</p>
+<p>Refund Policy: ${found.refund}</p>
+<p>Price: ${found.price}</p>
+    `;
+ 
+  }else{
+ 
+    result.innerHTML =
+      "Product not found";
   }
-
-  if(t==3){
-    box.value=`FOR NO ACCOUNT FOUND
-Campaign:
-Order Date:
-Email:
-Name:
-Phone Number:
-Product Name:
-Tracking Number:
-Order ID:`;
-  }
-}
-
-function copy(){
-  navigator.clipboard.writeText(document.getElementById("box").value);
 }
