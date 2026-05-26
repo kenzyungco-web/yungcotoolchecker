@@ -6,78 +6,133 @@
 }
 
 body {
-  background: #f4f4f4;
+  background: #f5f5f5;
   color: #111;
   transition: 0.3s;
 }
 
-.dark {
+/* Dark Mode */
+body.dark {
   background: #121212;
-  color: #f4f4f4;
+  color: #f5f5f5;
 }
 
 .top-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
   display: flex;
   justify-content: space-between;
+  padding: 10px 15px;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+}
+
+.top-bar .left {
+  display: flex;
   align-items: center;
-  padding: 15px;
-  background: #4a90e2;
-  color: white;
+  gap: 10px;
 }
 
-.top-actions button {
-  margin-left: 10px;
-  padding: 8px 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
+.top-bar .right button {
+  margin-left: 5px;
 }
 
-.container {
+.cat {
+  font-size: 22px;
+}
+
+.clock {
+  font-weight: bold;
+}
+
+.section {
+  display: none;
+  padding: 80px 20px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.section.active {
+  display: block;
+}
+
+h1, h2 {
+  margin-bottom: 20px;
+}
+
+.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 15px;
-  padding: 15px;
-}
-
-.card {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.dark .card {
-  background: #1e1e1e;
-}
-
-input, select {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
 }
 
 button {
   padding: 10px;
-  width: 100%;
   border: none;
-  background: #4a90e2;
+  background: #2d6cdf;
   color: white;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 6px;
+  transition: 0.2s;
 }
 
 button:hover {
-  background: #357ab8;
+  opacity: 0.85;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background: #1e1e1e;
+  color: white;
+  border: 1px solid #333;
 }
 
 .output {
-  margin-top: 10px;
+  margin-top: 15px;
   padding: 10px;
   background: rgba(0,0,0,0.05);
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
-.dark .output {
+body.dark .output {
   background: rgba(255,255,255,0.08);
+}
+
+.back {
+  margin-top: 20px;
+  background: #444;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+textarea {
+  height: 250px;
+}
+
+.top-bar .right button {
+  padding: 6px 10px;
+}
+
+/* Cat fixed left side */
+.cat {
+  position: fixed;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 28px;
+  z-index: 999;
 }
