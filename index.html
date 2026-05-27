@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- TOP NAV -->
+  <!-- TOP NAVIGATION -->
   <div class="topbar">
     <button id="homeBtn">💊💵 Home</button>
     <button id="darkModeBtn">🌙 Dark Mode</button>
@@ -24,11 +24,19 @@
     </div>
   </header>
 
+  <!-- MAIN CONTENT -->
   <main>
 
-    <!-- MONEYBACK CHECKER -->
+    <!-- MONEYBACK GUARANTEE -->
     <section class="card">
       <h2>1. MoneyBack Guarantee Checker</h2>
+
+      <label>Select Guarantee Days:</label>
+      <select id="guaranteeType">
+        <option value="60">60 Days</option>
+        <option value="80">80 Days</option>
+        <option value="180">180 Days</option>
+      </select>
 
       <label>Order Date:</label>
       <input type="date" id="orderDate">
@@ -38,19 +46,19 @@
 
       <button onclick="checkGuarantee()">Check Status</button>
 
-      <div id="guaranteeResult" class="result"></div>
+      <div class="result" id="guaranteeResult"></div>
     </section>
 
-    <!-- AHT CONVERTER -->
+    <!-- AHT TIME CONVERTER -->
     <section class="card">
       <h2>2. AHT Time Converter</h2>
 
-      <label>Enter Seconds:</label>
+      <label>Input Seconds:</label>
       <input type="number" id="secondsInput" placeholder="Enter seconds">
 
       <button onclick="convertTime()">Convert Time</button>
 
-      <div id="timeResult" class="result"></div>
+      <div class="result" id="timeResult"></div>
     </section>
 
     <!-- REFUND CALCULATOR -->
@@ -62,31 +70,7 @@
 
       <button onclick="calculateRefund()">Calculate Refund</button>
 
-      <div id="refundResult" class="result"></div>
-    </section>
-
-    <!-- NOTATIONS -->
-    <section class="card notation-card">
-      <h2>4. Notations Format</h2>
-
-      <textarea id="notationBox" rows="16">
-Agent Name:
-Reason for Calling:
-Resolution:
-Offer Save:
-Threat:
-Status:
-Campaign:
-Email:
-Name:
-Phone:
-Order ID:
-Product:
-RTN:
-RMA:
-      </textarea>
-
-      <button onclick="copyNotation()">Copy Notes</button>
+      <div class="result" id="refundResult"></div>
     </section>
 
   </main>
