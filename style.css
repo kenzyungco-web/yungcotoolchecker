@@ -14,11 +14,11 @@ body {
 
 /* LIGHT MODE */
 body.light-mode {
-  background: #f2f2f2;
+  background: #f3f4f6;
   color: #111;
 }
 
-/* TOPBAR */
+/* TOP BAR */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -71,7 +71,7 @@ header h1 {
 /* MAIN GRID */
 main {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 20px;
   padding: 20px;
 }
@@ -80,10 +80,10 @@ main {
 .card {
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 20px;
   padding: 20px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.3);
+  border-radius: 20px;
   backdrop-filter: blur(12px);
+  box-shadow: 0 0 25px rgba(0,0,0,0.3);
   transition: 0.3s;
 }
 
@@ -101,15 +101,15 @@ body.light-mode .card {
   color: #00d9ff;
 }
 
+/* FORM */
 label {
   display: block;
   margin-top: 12px;
   margin-bottom: 6px;
 }
 
-/* INPUTS */
 input,
-textarea {
+select {
   width: 100%;
   padding: 12px;
   border: none;
@@ -121,23 +121,19 @@ textarea {
 }
 
 body.light-mode input,
-body.light-mode textarea {
+body.light-mode select {
   background: #ececec;
   color: black;
 }
 
-textarea {
-  resize: vertical;
-}
-
-/* RESULTS */
+/* RESULT BOX */
 .result {
   margin-top: 15px;
   padding: 12px;
   border-radius: 12px;
   background: rgba(255,255,255,0.08);
-  font-weight: bold;
   line-height: 1.8;
+  font-weight: bold;
 }
 
 /* MOBILE */
