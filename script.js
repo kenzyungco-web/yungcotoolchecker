@@ -1,5 +1,6 @@
 // REALTIME CLOCK & DATE
 function updateDateTime() {
+
   const now = new Date();
 
   const time = now.toLocaleTimeString();
@@ -17,6 +18,7 @@ updateDateTime();
 const darkModeBtn = document.getElementById("darkModeBtn");
 
 darkModeBtn.addEventListener("click", () => {
+
   document.body.classList.toggle("light-mode");
 
   if (document.body.classList.contains("light-mode")) {
@@ -29,50 +31,73 @@ darkModeBtn.addEventListener("click", () => {
 
 // HOME BUTTON
 document.getElementById("homeBtn").addEventListener("click", () => {
+
   window.scrollTo({
     top: 0,
     behavior: "smooth"
   });
+
 });
 
 
 // MONEYBACK GUARANTEE CHECKER
 function checkGuarantee() {
 
-  const orderDate = new Date(document.getElementById("orderDate").value);
-  const presentDate = new Date(document.getElementById("presentDate").value);
+  const orderDate = new Date(
+    document.getElementById("orderDate").value
+  );
 
-  const diffTime = presentDate - orderDate;
+  const presentDate = new Date(
+    document.getElementById("presentDate").value
+  );
 
-  const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const guaranteeDays = parseInt(
+    document.getElementById("guaranteeType").value
+  );
 
-  let status = "";
+  const difference = presentDate - orderDate;
 
-  if (days <= 60 && days >= 0) {
-    status = `✅ Eligible for 60-Day Guarantee (${days} days)`;
+  const days = Math.floor(
+    difference / (1000 * 60 * 60 * 24)
+  );
+
+  let result = "";
+
+  if (days >= 0 && days <= guaranteeDays) {
+
+    result = `
+      ✅ Eligible <br>
+      Guarantee: ${guaranteeDays} Days <br>
+      Days Used: ${days} Days <br>
+      Remaining: ${guaranteeDays - days} Days
+    `;
+
+  } else {
+
+    result = `
+      ❌ Expired <br>
+      Guarantee: ${guaranteeDays} Days <br>
+      Days Used: ${days} Days <br>
+      Exceeded By: ${days - guaranteeDays} Days
+    `;
   }
-  else if (days <= 80) {
-    status = `🟡 Eligible for 80-Day Guarantee (${days} days)`;
-  }
-  else if (days <= 180) {
-    status = `🟠 Eligible for 180-Day Guarantee (${days} days)`;
-  }
-  else {
-    status = `❌ Expired (${days} days)`;
-  }
 
-  document.getElementById("guaranteeResult").innerHTML = status;
+  document.getElementById("guaranteeResult").innerHTML = result;
 }
 
 
 // AHT TIME CONVERTER
 function convertTime() {
 
-  const seconds = parseInt(document.getElementById("secondsInput").value);
+  const seconds = parseInt(
+    document.getElementById("secondsInput").value
+  );
 
   if (isNaN(seconds)) {
+
     document.getElementById("timeResult").innerHTML =
       "⚠️ Please enter valid seconds.";
+
     return;
   }
 
@@ -84,22 +109,26 @@ function convertTime() {
 }
 
 
-// REFUND CALCULATOR
+// REFUND OPTION CALCULATOR
 function calculateRefund() {
 
-  const amount = parseFloat(document.getElementById("productAmount").value);
+  const amount = parseFloat(
+    document.getElementById("productAmount").value
+  );
 
   if (isNaN(amount)) {
+
     document.getElementById("refundResult").innerHTML =
       "⚠️ Please enter a valid amount.";
+
     return;
   }
 
-  const percentages = [15, 25, 35, 50, 75];
+  const refundOptions = [15, 25, 35, 50, 75];
 
-  let output = "<h3>Refund Options:</h3>";
+  let output = `<h3>Refund Options:</h3>`;
 
-  percentages.forEach(percent => {
+  refundOptions.forEach(percent => {
 
     const refund = (amount * percent / 100).toFixed(2);
 
@@ -109,18 +138,4 @@ function calculateRefund() {
   });
 
   document.getElementById("refundResult").innerHTML = output;
-}
-
-
-// COPY NOTATIONS
-function copyNotation() {
-
-  const notation = document.getElementById("notationBox");
-
-  notation.select();
-  notation.setSelectionRange(0, 99999);
-
-  navigator.clipboard.writeText(notation.value);
-
-  alert("✅ Notes copied successfully!");
 }
