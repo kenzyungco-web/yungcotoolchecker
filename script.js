@@ -1,31 +1,22 @@
-// REALTIME CLOCK & DATE
+// REALTIME CLOCK
+
 function updateClock() {
     const now = new Date();
 
     const time = now.toLocaleTimeString();
     const date = now.toDateString();
 
-    document.getElementById("clock").innerText = time;
-    document.getElementById("date").innerText = date;
+    document.getElementById("clock").innerHTML = time;
+    document.getElementById("date").innerHTML = date;
 }
 
 setInterval(updateClock, 1000);
+
 updateClock();
 
 
-// DARK MODE
-function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-}
-
-
-// REFRESH PAGE
-function refreshPage() {
-    location.reload();
-}
-
-
 // MONEY BACK GUARANTEE CHECKER
+
 function checkGuarantee() {
 
     const orderDate = new Date(document.getElementById("orderDate").value);
@@ -34,100 +25,128 @@ function checkGuarantee() {
     const today = new Date();
 
     const diffTime = today - orderDate;
+
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-    let result = "";
+    const result = document.getElementById("guaranteeResult");
 
     if (diffDays <= guaranteeDays) {
 
         const remaining = guaranteeDays - diffDays;
 
-        result = `✅ Eligible! ${remaining} day(s) remaining 🎉`;
+        result.innerHTML =
+            `✅ Eligible! ${remaining} day(s) remaining 🎉`;
+
+        result.style.color = "lightgreen";
 
     } else {
 
         const expired = diffDays - guaranteeDays;
 
-        result = `❌ Expired ${expired} day(s) ago`;
-    }
+        result.innerHTML =
+            `❌ Expired ${expired} day(s) ago`;
 
-    document.getElementById("guaranteeResult").innerHTML = result;
+        result.style.color = "red";
+    }
 }
 
 
-// AHT TIME CONVERTER
+// AHT CONVERTER
+
 function convertTime() {
 
-    const seconds = parseInt(document.getElementById("secondsInput").value);
+    const seconds =
+        parseInt(document.getElementById("secondsInput").value);
 
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
+    const minutes = Math.floor(seconds / 60);
 
-    document.getElementById("timeResult").innerHTML =
-        `⏱️ ${seconds} seconds = ${mins} minute(s) and ${secs} second(s)`;
+    const remainingSeconds = seconds % 60;
+
+    document.getElementById("convertedTime").innerHTML =
+        `⏱️ ${minutes} minute(s) and ${remainingSeconds} second(s)`;
 }
 
 
 // REFUND LADDER CALCULATOR
-function calculateRefunds() {
 
-    const amount = parseFloat(document.getElementById("productAmount").value);
+function calculateRefund() {
 
-    const refunds = [15, 25, 35, 50, 75];
+    const amount =
+        parseFloat(document.getElementById("productAmount").value);
+
+    const percentages = [15, 25, 35, 50, 75];
 
     let output = "";
 
-    refunds.forEach(percent => {
+    percentages.forEach(percent => {
 
-        const value = (amount * percent / 100).toFixed(2);
+        const refund = (amount * percent / 100).toFixed(2);
 
         output += `
-            <p>💵 ${percent}% Refund = $${value}</p>
+            <p>
+            💵 ${percent}% Refund = ₱${refund}
+            </p>
         `;
     });
 
-    document.getElementById("refundResult").innerHTML = output;
+    document.getElementById("refundResults").innerHTML = output;
+}
+
+
+// DARK MODE
+
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+}
+
+
+// REFRESH
+
+function refreshPage() {
+    location.reload();
 }
 
 
 // STOPWATCH
+
 let stopwatchInterval;
-let seconds = 0;
+let elapsedSeconds = 0;
 
 function updateStopwatch() {
 
-    seconds++;
+    elapsedSeconds++;
 
-    let hrs = Math.floor(seconds / 3600);
-    let mins = Math.floor((seconds % 3600) / 60);
-    let secs = seconds % 60;
+    let hours = Math.floor(elapsedSeconds / 3600);
+    let minutes = Math.floor((elapsedSeconds % 3600) / 60);
+    let seconds = elapsedSeconds % 60;
 
-    hrs = String(hrs).padStart(2, '0');
-    mins = String(mins).padStart(2, '0');
-    secs = String(secs).padStart(2, '0');
+    hours = String(hours).padStart(2, '0');
+    minutes = String(minutes).padStart(2, '0');
+    seconds = String(seconds).padStart(2, '0');
 
-    document.getElementById("stopwatch").innerText =
-        `${hrs}:${mins}:${secs}`;
+    document.getElementById("stopwatch").innerHTML =
+        `${hours}:${minutes}:${seconds}`;
 }
 
 function startStopwatch() {
 
-    clearInterval(stopwatchInterval);
-
-    stopwatchInterval = setInterval(updateStopwatch, 1000);
+    if (!stopwatchInterval) {
+        stopwatchInterval = setInterval(updateStopwatch, 1000);
+    }
 }
 
 function stopStopwatch() {
 
     clearInterval(stopwatchInterval);
+    stopwatchInterval = null;
 }
 
 function resetStopwatch() {
 
-    clearInterval(stopwatchInterval);
+    stopStopwatch();
 
-    seconds = 0;
+    elapsedSeconds = 0;
 
-    document.getElementById("stopwatch").innerText =
+    document.getElementById("stopwatch").innerHTML =
         "00:00:00";
 }
