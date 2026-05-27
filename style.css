@@ -1,141 +1,102 @@
-* {
+body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #141e30, #243b55);
+    background: linear-gradient(135deg, #1e1e2f, #2b5876);
     color: white;
-    min-height: 100vh;
-    transition: 0.4s;
+    transition: 0.3s;
 }
 
 .container {
     width: 90%;
-    max-width: 1000px;
+    max-width: 900px;
     margin: auto;
     padding: 20px;
 }
 
-header {
+h1 {
     text-align: center;
     margin-bottom: 30px;
-}
-
-header h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-}
-
-.datetime {
-    margin-bottom: 15px;
-}
-
-#clock {
-    font-size: 2.5rem;
-    color: #00ffd5;
-}
-
-#date {
-    font-size: 1.2rem;
-}
-
-.top-buttons button {
-    margin: 5px;
+    font-size: 40px;
 }
 
 .card {
     background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
     backdrop-filter: blur(10px);
-    padding: 25px;
-    border-radius: 20px;
-    margin-bottom: 25px;
     box-shadow: 0 0 15px rgba(0,0,0,0.3);
 }
 
-.card h2 {
-    margin-bottom: 15px;
-    color: #00ffd5;
-}
-
-label {
-    display: block;
-    margin-top: 10px;
-    margin-bottom: 5px;
+h2 {
+    margin-top: 0;
 }
 
 input, select {
     width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
+    padding: 10px;
+    margin-top: 10px;
     margin-bottom: 15px;
-    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
 }
 
 button {
-    padding: 12px 18px;
+    background: #ff9800;
+    color: white;
     border: none;
+    padding: 12px 18px;
+    margin: 5px;
     border-radius: 10px;
-    background: #00ffd5;
-    color: black;
-    font-weight: bold;
     cursor: pointer;
+    font-size: 15px;
     transition: 0.3s;
 }
 
 button:hover {
-    background: #00bfa5;
+    background: #ffb74d;
     transform: scale(1.05);
 }
 
-.result {
-    margin-top: 15px;
-    font-size: 1.1rem;
+#clock {
+    font-size: 45px;
     font-weight: bold;
 }
 
+#date {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
 #stopwatch {
-    font-size: 3rem;
+    font-size: 40px;
     text-align: center;
     margin: 20px 0;
-    color: #ffd700;
 }
 
 .stopwatch-buttons {
     text-align: center;
 }
 
-.stopwatch-buttons button {
-    margin: 5px;
+.quote {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 30px;
+    font-family: "Times New Roman", serif;
+    color: #ffd700;
 }
 
 .dark-mode {
-    background: #f5f5f5;
-    color: black;
+    background: #111;
+    color: #f1f1f1;
 }
 
 .dark-mode .card {
-    background: rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.05);
 }
 
-.dark-mode button {
-    background: #222;
-    color: white;
-}
-
-.dark-mode #clock {
-    color: #00695c;
-}
-
-@media(max-width: 768px) {
-    header h1 {
-        font-size: 2rem;
-    }
-
-    #clock {
-        font-size: 2rem;
-    }
+.controls {
+    text-align: center;
 }
