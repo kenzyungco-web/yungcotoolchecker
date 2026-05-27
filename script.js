@@ -1,141 +1,91 @@
-// REALTIME CLOCK & DATE
-function updateDateTime() {
+// Real-Time Clock & Date
+function updateClock() {
+    const now = new Date();
 
-  const now = new Date();
+    const time = now.toLocaleTimeString();
+    const date = now.toDateString();
 
-  const time = now.toLocaleTimeString();
-  const date = now.toDateString();
-
-  document.getElementById("clock").innerHTML = `🕒 ${time}`;
-  document.getElementById("date").innerHTML = `📅 ${date}`;
+    document.getElementById("clock").innerText = "🕒 " + time;
+    document.getElementById("date").innerText = "📅 " + date;
 }
 
-setInterval(updateDateTime, 1000);
-updateDateTime();
+setInterval(updateClock, 1000);
+updateClock();
 
 
-// DARK MODE TOGGLE
-const darkModeBtn = document.getElementById("darkModeBtn");
-
-darkModeBtn.addEventListener("click", () => {
-
-  document.body.classList.toggle("light-mode");
-
-  if (document.body.classList.contains("light-mode")) {
-    darkModeBtn.innerHTML = "☀️ Light Mode";
-  } else {
-    darkModeBtn.innerHTML = "🌙 Dark Mode";
-  }
-});
+// Dark Mode Toggle
+function toggleDarkMode() {
+    document.body.classList.toggle("light-mode");
+}
 
 
-// HOME BUTTON
-document.getElementById("homeBtn").addEventListener("click", () => {
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
-});
+// Go Back Button
+function goBack() {
+    window.history.back();
+}
 
 
-// MONEYBACK GUARANTEE CHECKER
+// Money Back Guarantee Checker
 function checkGuarantee() {
 
-  const orderDate = new Date(
-    document.getElementById("orderDate").value
-  );
+    const orderDate = new Date(document.getElementById("orderDate").value);
+    const guaranteeDays = parseInt(document.getElementById("guaranteeDays").value);
 
-  const presentDate = new Date(
-    document.getElementById("presentDate").value
-  );
+    const today = new Date();
 
-  const guaranteeDays = parseInt(
-    document.getElementById("guaranteeType").value
-  );
+    const diffTime = today - orderDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-  const difference = presentDate - orderDate;
+    let result = "";
 
-  const days = Math.floor(
-    difference / (1000 * 60 * 60 * 24)
-  );
+    if (diffDays <= guaranteeDays) {
+        result = `✅ Eligible! ${guaranteeDays - diffDays} days remaining.`;
+    } else {
+        result = `❌ Expired ${diffDays - guaranteeDays} days ago.`;
+    }
 
-  let result = "";
-
-  if (days >= 0 && days <= guaranteeDays) {
-
-    result = `
-      ✅ Eligible <br>
-      Guarantee: ${guaranteeDays} Days <br>
-      Days Used: ${days} Days <br>
-      Remaining: ${guaranteeDays - days} Days
-    `;
-
-  } else {
-
-    result = `
-      ❌ Expired <br>
-      Guarantee: ${guaranteeDays} Days <br>
-      Days Used: ${days} Days <br>
-      Exceeded By: ${days - guaranteeDays} Days
-    `;
-  }
-
-  document.getElementById("guaranteeResult").innerHTML = result;
+    document.getElementById("guaranteeResult").innerHTML = result;
 }
 
 
-// AHT TIME CONVERTER
+// AHT Time Converter
 function convertTime() {
 
-  const seconds = parseInt(
-    document.getElementById("secondsInput").value
-  );
+    const seconds = parseInt(document.getElementById("secondsInput").value);
 
-  if (isNaN(seconds)) {
+    if (isNaN(seconds)) {
+        document.getElementById("timeResult").innerHTML = "⚠️ Please enter valid seconds.";
+        return;
+    }
+
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
 
     document.getElementById("timeResult").innerHTML =
-      "⚠️ Please enter valid seconds.";
-
-    return;
-  }
-
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-
-  document.getElementById("timeResult").innerHTML =
-    `⏱ ${seconds} seconds = ${minutes} minute(s) and ${remainingSeconds} second(s)`;
+        `⏱️ ${seconds} seconds = ${minutes} minute(s) and ${remainingSeconds} second(s)`;
 }
 
 
-// REFUND OPTION CALCULATOR
-function calculateRefund() {
+// Refund Ladder Calculator
+function calculateRefunds() {
 
-  const amount = parseFloat(
-    document.getElementById("productAmount").value
-  );
+    const amount = parseFloat(document.getElementById("productAmount").value);
 
-  if (isNaN(amount)) {
+    if (isNaN(amount)) {
+        document.getElementById("refundResult").innerHTML = "⚠️ Please enter a valid amount.";
+        return;
+    }
 
-    document.getElementById("refundResult").innerHTML =
-      "⚠️ Please enter a valid amount.";
+    const percentages = [15, 25, 35, 50, 75];
 
-    return;
-  }
+    let output = "💵 Refund Options:<br><br>";
 
-  const refundOptions = [15, 25, 35, 50, 75];
+    percentages.forEach(percent => {
 
-  let output = `<h3>Refund Options:</h3>`;
+        const refund = (amount * percent / 100).toFixed(2);
 
-  refundOptions.forEach(percent => {
+        output += `✅ ${percent}% Refund = $${refund}<br>`;
+    });
 
-    const refund = (amount * percent / 100).toFixed(2);
-
-    output += `
-      <p>💰 ${percent}% Refund = $${refund}</p>
-    `;
-  });
-
-  document.getElementById("refundResult").innerHTML = output;
+    document.getElementById("refundResult").innerHTML = output;
 }
