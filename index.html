@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Customer Service Tool</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
@@ -14,13 +14,13 @@
             <h1>🎧 Customer Service Tool</h1>
 
             <div class="datetime">
-                <p id="clock">00:00:00</p>
-                <p id="date">Loading date...</p>
+                <h2 id="clock">00:00:00</h2>
+                <p id="date">Loading Date...</p>
             </div>
 
             <div class="top-buttons">
                 <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
-                <button onclick="goBack()">🔙 Go Back</button>
+                <button onclick="refreshPage()">🔄 Refresh</button>
             </div>
         </header>
 
@@ -29,9 +29,9 @@
             <h2>💰 Money Back Guarantee Checker</h2>
 
             <label>Order Date:</label>
-            <input type="date" id="orderDate">
+            <input type="date" id="orderDate"/>
 
-            <label>Guarantee Period:</label>
+            <label>Guarantee Days:</label>
             <select id="guaranteeDays">
                 <option value="60">60 Days</option>
                 <option value="80">80 Days</option>
@@ -48,7 +48,7 @@
             <h2>⏱️ AHT Time Converter</h2>
 
             <label>Enter Seconds:</label>
-            <input type="number" id="secondsInput" placeholder="e.g. 350">
+            <input type="number" id="secondsInput" placeholder="e.g. 320"/>
 
             <button onclick="convertTime()">Convert</button>
 
@@ -57,14 +57,27 @@
 
         <!-- Refund Ladder Calculator -->
         <section class="card">
-            <h2>📉 Refund Ladder Calculator</h2>
+            <h2>💸 Refund Ladder Calculator</h2>
 
-            <label>Product Amount ($):</label>
-            <input type="number" id="productAmount" placeholder="Enter amount">
+            <label>Product Amount:</label>
+            <input type="number" id="productAmount" placeholder="Enter amount"/>
 
             <button onclick="calculateRefunds()">Calculate Refunds</button>
 
             <div id="refundResult" class="result"></div>
+        </section>
+
+        <!-- Stopwatch -->
+        <section class="card">
+            <h2>🏁 Stopwatch</h2>
+
+            <div id="stopwatch">00:00:00</div>
+
+            <div class="stopwatch-buttons">
+                <button onclick="startStopwatch()">▶️ Start</button>
+                <button onclick="stopStopwatch()">⏸️ Stop</button>
+                <button onclick="resetStopwatch()">🔁 Reset</button>
+            </div>
         </section>
 
     </div>
