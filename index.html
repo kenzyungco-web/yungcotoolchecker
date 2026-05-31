@@ -1,84 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gelatide Supplement</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DropShipping Coaching App</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://js.stripe.com/v3/"></script>
 </head>
+
 <body>
 
-<header>
-    <h1>Gelatide</h1>
-    <p>Premium Health Supplement</p>
-</header>
+<!-- App Container -->
+<div class="app">
 
-<section class="hero">
-    <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2" alt="Gelatide Product">
-
-    <div>
-        <h2>Boost Your Health Naturally</h2>
-        <p>Gelatide helps improve immunity, energy, and overall wellness.</p>
-        <button onclick="scrollToOrder()">Order Now</button>
+    <!-- Header -->
+    <div class="top-bar">
+        <h2>KEN YUNGCO</h2>
+        <span>📞 09198963548</span>
     </div>
-</section>
 
-<section class="info">
-    <h2>About Gelatide</h2>
-    <p>
-        Gelatide is a high-quality supplement formulated with essential nutrients 
-        to support your daily health and wellness needs.
-    </p>
+    <!-- Main Screen -->
+    <div class="screen">
 
-    <h3>Benefits</h3>
-    <ul>
-        <li>Strengthens immune system</li>
-        <li>Enhances energy levels</li>
-        <li>Supports overall body wellness</li>
-        <li>Safe and quality ingredients</li>
-    </ul>
-</section>
+        <h1>DropShipping Coaching</h1>
+        <p>$25/month • 3 Sessions Monthly</p>
 
-<section class="guarantee">
-    <h2>✅ 60 Days Money-Back Guarantee</h2>
-    <p>If you are not satisfied, you can request a full refund within 60 days.</p>
-</section>
+        <button onclick="showPayment()">Subscribe Now</button>
+        <button onclick="showBooking()">Book Session</button>
+        <button onclick="showAdmin()">Admin Dashboard</button>
 
-<section class="certification">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/FDA_logo.svg">
-    <p>FDA Certified Product</p>
-</section>
+        <!-- Payment Section -->
+        <div id="paymentSection" class="hidden">
+            <h3>Payment</h3>
 
-<!-- ORDER FORM -->
-<section class="order" id="order">
-    <h2>Order Now</h2>
+            <select id="paymentMethod">
+                <option>Credit Card</option>
+                <option>Visa</option>
+                <option>Debit Card</option>
+                <option>Online Payment</option>
+            </select>
 
-    <form id="orderForm">
-        <input type="text" placeholder="Full Name" required>
-        <input type="text" placeholder="Address" required>
-        <input type="tel" placeholder="Contact Number" required>
+            <input type="text" placeholder="Card Number">
 
-        <select required>
-            <option value="">Select Payment Method</option>
-            <option>GCash</option>
-            <option>PayMaya</option>
-            <option>Cash on Delivery</option>
-        </select>
+            <button onclick="payNow()">Pay $25</button>
+        </div>
 
-        <button type="submit">Submit Order</button>
-    </form>
-</section>
+        <!-- Booking Section -->
+        <div id="bookingSection" class="hidden">
+            <h3>Book Coaching Session</h3>
 
-<section class="contact">
-    <h2>Contact Us</h2>
-    <p>📞 09198963548</p>
-</section>
+            <input type="text" id="clientName" placeholder="Your Name">
+            <input type="date" id="sessionDate">
 
-<footer>
-    <p>Terms and Conditions | Refund Policy | Contact Us</p>
-</footer>
+            <button onclick="bookSession()">Book</button>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminSection" class="hidden">
+            <h3>Admin Dashboard</h3>
+
+            <div id="bookingList"></div>
+        </div>
+
+    </div>
+
+    <!-- Reviews -->
+    <div class="reviews">
+        <p>"Amazing coaching! I now earn online consistently!"</p>
+        <p>"Best investment for learning dropshipping!"</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        EARNING MONEY IS HARD BUT WHAT IS HARD IF YOU ARE SMART
+    </div>
+
+</div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
