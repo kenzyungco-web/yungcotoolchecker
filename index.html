@@ -3,89 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Service Tool</title>
+    <title>Gelatide Supplement</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
+<header>
+    <h1>Gelatide</h1>
+    <p>Premium Health Supplement</p>
+</header>
 
-        <h1>🎧 Customer Service Tool</h1>
+<section class="hero">
+    <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2" alt="Gelatide Product">
 
-        <!-- Clock -->
-        <div class="card">
-            <h2>🕒 Real-Time Clock</h2>
-            <div id="clock"></div>
-            <div id="date"></div>
-        </div>
-
-        <!-- Money Back Guarantee Checker -->
-        <div class="card">
-            <h2>💰 Money Back Guarantee Checker</h2>
-
-            <label>Order Date:</label>
-            <input type="date" id="orderDate">
-
-            <label>Select Guarantee:</label>
-            <select id="guaranteeDays">
-                <option value="60">60 Days</option>
-                <option value="80">80 Days</option>
-                <option value="180">180 Days</option>
-            </select>
-
-            <button onclick="checkGuarantee()">Check Eligibility</button>
-
-            <p id="guaranteeResult"></p>
-        </div>
-
-        <!-- AHT Converter -->
-        <div class="card">
-            <h2>⏳ AHT Time Converter</h2>
-
-            <input type="number" id="secondsInput" placeholder="Enter seconds">
-
-            <button onclick="convertTime()">Convert</button>
-
-            <p id="convertedTime"></p>
-        </div>
-
-        <!-- Refund Ladder -->
-        <div class="card">
-            <h2>💸 Refund Ladder Calculator</h2>
-
-            <input type="number" id="productAmount" placeholder="Enter product amount">
-
-            <button onclick="calculateRefund()">Calculate Refund</button>
-
-            <div id="refundResults"></div>
-        </div>
-
-        <!-- Stopwatch -->
-        <div class="card">
-            <h2>⏱️ Stopwatch</h2>
-
-            <div id="stopwatch">00:00:00</div>
-
-            <div class="stopwatch-buttons">
-                <button onclick="startStopwatch()">Start</button>
-                <button onclick="stopStopwatch()">Stop</button>
-                <button onclick="resetStopwatch()">Reset</button>
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <div class="card controls">
-            <button onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
-            <button onclick="refreshPage()">🔄 Refresh</button>
-        </div>
-
-        <!-- Quote -->
-        <div class="quote">
-            AYAW KOL BATA PAKO KOL PATOTOYA
-        </div>
-
+    <div>
+        <h2>Boost Your Health Naturally</h2>
+        <p>Gelatide helps improve immunity, energy, and overall wellness.</p>
+        <button onclick="scrollToOrder()">Order Now</button>
     </div>
+</section>
 
-    <script src="script.js"></script>
+<section class="info">
+    <h2>About Gelatide</h2>
+    <p>
+        Gelatide is a high-quality supplement formulated with essential nutrients 
+        to support your daily health and wellness needs.
+    </p>
+
+    <h3>Benefits</h3>
+    <ul>
+        <li>Strengthens immune system</li>
+        <li>Enhances energy levels</li>
+        <li>Supports overall body wellness</li>
+        <li>Safe and quality ingredients</li>
+    </ul>
+</section>
+
+<section class="guarantee">
+    <h2>✅ 60 Days Money-Back Guarantee</h2>
+    <p>If you are not satisfied, you can request a full refund within 60 days.</p>
+</section>
+
+<section class="certification">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/FDA_logo.svg">
+    <p>FDA Certified Product</p>
+</section>
+
+<!-- ORDER FORM -->
+<section class="order" id="order">
+    <h2>Order Now</h2>
+
+    <form id="orderForm">
+        <input type="text" placeholder="Full Name" required>
+        <input type="text" placeholder="Address" required>
+        <input type="tel" placeholder="Contact Number" required>
+
+        <select required>
+            <option value="">Select Payment Method</option>
+            <option>GCash</option>
+            <option>PayMaya</option>
+            <option>Cash on Delivery</option>
+        </select>
+
+        <button type="submit">Submit Order</button>
+    </form>
+</section>
+
+<section class="contact">
+    <h2>Contact Us</h2>
+    <p>📞 09198963548</p>
+</section>
+
+<footer>
+    <p>Terms and Conditions | Refund Policy | Contact Us</p>
+</footer>
+
+<script src="script.js"></script>
+
 </body>
 </html>
