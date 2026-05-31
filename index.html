@@ -3,79 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DropShipping Coaching App</title>
+<title>Earn Money Coaching</title>
 <link rel="stylesheet" href="styles.css">
-<script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body>
 
-<!-- App Container -->
-<div class="app">
+<!-- Header -->
+<header>
+    <h1>💼 Earn Money Coaching</h1>
+    <p>Learn Smart Ways to Build Income 💰</p>
+</header>
 
-    <!-- Header -->
-    <div class="top-bar">
-        <h2>KEN YUNGCO</h2>
-        <span>📞 09198963548</span>
+<!-- Hero Section -->
+<section class="hero">
+    <h2>Start Earning Smarter 🚀</h2>
+    <p>Get personal coaching for just <strong>$35 per session</strong></p>
+    <button onclick="scrollToPayment()">Book Now</button>
+</section>
+
+<!-- Services -->
+<section class="services">
+    <h2>✨ What You’ll Learn</h2>
+    <div class="cards">
+        <div class="card">📈 Digital Marketing Strategies</div>
+        <div class="card">🛒 Dropshipping & Ecommerce</div>
+        <div class="card">💻 Online Income Systems</div>
     </div>
+</section>
 
-    <!-- Main Screen -->
-    <div class="screen">
+<!-- Payment Section -->
+<section class="payment" id="payment">
+    <h2>💳 Payment Options</h2>
 
-        <h1>DropShipping Coaching</h1>
-        <p>$25/month • 3 Sessions Monthly</p>
+    <form id="paymentForm">
+        <input type="text" placeholder="Full Name" required>
+        <input type="email" placeholder="Email" required>
 
-        <button onclick="showPayment()">Subscribe Now</button>
-        <button onclick="showBooking()">Book Session</button>
-        <button onclick="showAdmin()">Admin Dashboard</button>
+        <select required>
+            <option value="">Select Payment Method</option>
+            <option>💳 Credit Card</option>
+            <option>💳 Debit Card</option>
+            <option>🅿️ PayPal</option>
+            <option>🍎 Apple Pay</option>
+            <option>🏪 Vendo</option>
+        </select>
 
-        <!-- Payment Section -->
-        <div id="paymentSection" class="hidden">
-            <h3>Payment</h3>
+        <button type="submit">Pay $35 Session</button>
+    </form>
+</section>
 
-            <select id="paymentMethod">
-                <option>Credit Card</option>
-                <option>Visa</option>
-                <option>Debit Card</option>
-                <option>Online Payment</option>
-            </select>
+<!-- Contact -->
+<section class="info">
+    <h3>📞 Contact Us</h3>
+    <p>Email: support@earnmoneycoach.com</p>
+    <p>Phone: 09198963548</p>
+</section>
 
-            <input type="text" placeholder="Card Number">
+<!-- Terms -->
+<section class="info">
+    <h3>📄 Terms & Conditions</h3>
+    <p>
+        All coaching sessions must be scheduled in advance. Payments are required prior to session confirmation.
+    </p>
+</section>
 
-            <button onclick="payNow()">Pay $25</button>
-        </div>
+<!-- Refund -->
+<section class="info">
+    <h3>🔁 Refund Policy</h3>
+    <p>
+        Refunds are available within 24 hours of payment if no session has been used.
+    </p>
+</section>
 
-        <!-- Booking Section -->
-        <div id="bookingSection" class="hidden">
-            <h3>Book Coaching Session</h3>
-
-            <input type="text" id="clientName" placeholder="Your Name">
-            <input type="date" id="sessionDate">
-
-            <button onclick="bookSession()">Book</button>
-        </div>
-
-        <!-- Admin Dashboard -->
-        <div id="adminSection" class="hidden">
-            <h3>Admin Dashboard</h3>
-
-            <div id="bookingList"></div>
-        </div>
-
-    </div>
-
-    <!-- Reviews -->
-    <div class="reviews">
-        <p>"Amazing coaching! I now earn online consistently!"</p>
-        <p>"Best investment for learning dropshipping!"</p>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        EARNING MONEY IS HARD BUT WHAT IS HARD IF YOU ARE SMART
-    </div>
-
-</div>
+<!-- Footer -->
+<footer>
+    <h2>🔥 SUCCESS STARTS WITH ACTION 🔥</h2>
+</footer>
 
 <script src="script.js"></script>
 </body>
