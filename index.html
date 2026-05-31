@@ -1,86 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Earn Money Coaching</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMONEY - Financial Freedom Through E-Commerce</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="[cdnjs.cloudflare.com](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
+    <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap)" rel="stylesheet">
 </head>
-
 <body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <h1>EMONEY</h1>
+            </div>
+            <p class="tagline">Financial Freedom in the Digital Age</p>
+        </header>
 
-<!-- Header -->
-<header>
-    <h1>💼 Earn Money Coaching</h1>
-    <p>Learn Smart Ways to Build Income 💰</p>
-</header>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Build Your Online Empire</h2>
+                <p>Learn proven strategies to achieve financial independence through e-commerce and digital entrepreneurship</p>
+                <div class="hero-animation">
+                    <div class="coin"></div>
+                    <div class="coin"></div>
+                    <div class="coin"></div>
+                    <div class="graph-line"></div>
+                </div>
+            </div>
+        </section>
 
-<!-- Hero Section -->
-<section class="hero">
-    <h2>Start Earning Smarter 🚀</h2>
-    <p>Get personal coaching for just <strong>$35 per session</strong></p>
-    <button onclick="scrollToPayment()">Book Now</button>
-</section>
+        <!-- Page Description -->
+        <section class="description">
+            <div class="description-card">
+                <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+                <p>We're dedicated to guiding individuals toward financial freedom by teaching modern online earning methods. In today's digital world, e-commerce and digital entrepreneurship offer unprecedented opportunities. Our structured programs provide the knowledge, tools, and mentorship needed to build sustainable online income streams.</p>
+                <div class="mission-points">
+                    <div class="point">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Practical, hands-on learning</span>
+                    </div>
+                    <div class="point">
+                        <i class="fas fa-rocket"></i>
+                        <span>Scalable business models</span>
+                    </div>
+                    <div class="point">
+                        <i class="fas fa-users"></i>
+                        <span>Community support network</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<!-- Services -->
-<section class="services">
-    <h2>✨ What You’ll Learn</h2>
-    <div class="cards">
-        <div class="card">📈 Digital Marketing Strategies</div>
-        <div class="card">🛒 Dropshipping & Ecommerce</div>
-        <div class="card">💻 Online Income Systems</div>
+        <!-- Options Selection -->
+        <section class="options">
+            <h2><i class="fas fa-crown"></i> Choose Your Path to Success</h2>
+            <p class="section-subtitle">Select an option below to begin your journey</p>
+            
+            <div class="options-container">
+                <!-- Option 1 -->
+                <div class="option-card" id="option1" data-price="35">
+                    <div class="option-header">
+                        <h3>Option 1</h3>
+                        <div class="popular-tag">Most Popular</div>
+                    </div>
+                    <div class="option-title">1 on 1 Coaching with Sir Ken</div>
+                    <div class="price">$35 <span class="price-unit">per session</span></div>
+                    <ul class="benefits">
+                        <li><i class="fas fa-check-circle"></i> Personalized strategy sessions</li>
+                        <li><i class="fas fa-check-circle"></i> Direct feedback on your business</li>
+                        <li><i class="fas fa-check-circle"></i> Custom action plans</li>
+                        <li><i class="fas fa-check-circle"></i> Weekly progress reviews</li>
+                        <li><i class="fas fa-check-circle"></i> Priority email support</li>
+                    </ul>
+                    <button class="select-btn" data-option="1">Select This Option</button>
+                </div>
+
+                <!-- Option 2 -->
+                <div class="option-card" id="option2" data-price="45">
+                    <div class="option-header">
+                        <h3>Option 2</h3>
+                        <div class="premium-tag">Premium</div>
+                    </div>
+                    <div class="option-title">Grow With Us</div>
+                    <div class="price">$45 <span class="price-unit">one-time access</span></div>
+                    <ul class="benefits">
+                        <li><i class="fas fa-check-circle"></i> Complete e-commerce course bundle</li>
+                        <li><i class="fas fa-check-circle"></i> Access to mastermind community</li>
+                        <li><i class="fas fa-check-circle"></i> Resource library with templates</li>
+                        <li><i class="fas fa-check-circle"></i> Monthly group coaching calls</li>
+                        <li><i class="fas fa-check-circle"></i> Lifetime updates to materials</li>
+                    </ul>
+                    <button class="select-btn" data-option="2">Select This Option</button>
+                </div>
+            </div>
+
+            <!-- Selection Animation Display -->
+            <div class="selection-display" id="selectionDisplay">
+                <div class="selection-content">
+                    <h3><i class="fas fa-hand-pointer"></i> Your Selection</h3>
+                    <div class="selected-option" id="selectedOption">
+                        <p>No option selected yet. Choose an option above to proceed.</p>
+                    </div>
+                    <div class="selection-animation">
+                        <div class="arrow"></div>
+                        <div class="pulse-circle"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Method -->
+        <section class="payment">
+            <h2><i class="fas fa-credit-card"></i> Complete Your Enrollment</h2>
+            <p class="section-subtitle">Select your preferred payment method</p>
+            
+            <div class="selected-summary" id="selectedSummary">
+                <!-- Dynamically filled by JavaScript -->
+            </div>
+
+            <div class="payment-methods">
+                <div class="payment-method" data-method="creditcard">
+                    <div class="method-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="method-name">Credit Card</div>
+                    <div class="method-check"><i class="fas fa-check"></i></div>
+                </div>
+                
+                <div class="payment-method" data-method="paypal">
+                    <div class="method-icon">
+                        <i class="fab fa-paypal"></i>
+                    </div>
+                    <div class="method-name">PayPal</div>
+                    <div class="method-check"><i class="fas fa-check"></i></div>
+                </div>
+                
+                <div class="payment-method" data-method="vendo">
+                    <div class="method-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="method-name">Vendo</div>
+                    <div class="method-check"><i class="fas fa-check"></i></div>
+                </div>
+            </div>
+
+            <div class="payment-action">
+                <button class="pay-btn" id="payButton">
+                    <i class="fas fa-lock"></i> Secure Payment
+                </button>
+                <p class="secure-note"><i class="fas fa-shield-alt"></i> All payments are encrypted and secure</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-envelope"></i> Contact Us</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> support@emoney.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Digital HQ, Global Network</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-file-contract"></i> Terms & Conditions</h4>
+                    <div class="legal-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Refund Policy</a>
+                        <a href="#">Disclaimer</a>
+                        <a href="#">Cookie Policy</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-business-time"></i> EMONEY</h4>
+                    <p>Leading people to financial freedom through modern online earning strategies since 2023.</p>
+                    <p class="copyright">© 2023 EMONEY Financial Freedom Group. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
     </div>
-</section>
 
-<!-- Payment Section -->
-<section class="payment" id="payment">
-    <h2>💳 Payment Options</h2>
-
-    <form id="paymentForm">
-        <input type="text" placeholder="Full Name" required>
-        <input type="email" placeholder="Email" required>
-
-        <select required>
-            <option value="">Select Payment Method</option>
-            <option>💳 Credit Card</option>
-            <option>💳 Debit Card</option>
-            <option>🅿️ PayPal</option>
-            <option>🍎 Apple Pay</option>
-            <option>🏪 Vendo</option>
-        </select>
-
-        <button type="submit">Pay $35 Session</button>
-    </form>
-</section>
-
-<!-- Contact -->
-<section class="info">
-    <h3>📞 Contact Us</h3>
-    <p>Email: support@earnmoneycoach.com</p>
-    <p>Phone: 09198963548</p>
-</section>
-
-<!-- Terms -->
-<section class="info">
-    <h3>📄 Terms & Conditions</h3>
-    <p>
-        All coaching sessions must be scheduled in advance. Payments are required prior to session confirmation.
-    </p>
-</section>
-
-<!-- Refund -->
-<section class="info">
-    <h3>🔁 Refund Policy</h3>
-    <p>
-        Refunds are available within 24 hours of payment if no session has been used.
-    </p>
-</section>
-
-<!-- Footer -->
-<footer>
-    <h2>🔥 SUCCESS STARTS WITH ACTION 🔥</h2>
-</footer>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
