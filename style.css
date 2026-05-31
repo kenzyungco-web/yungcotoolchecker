@@ -1,62 +1,92 @@
-let bookings = [];
-
-/* Navigation */
-function showPayment() {
-    hideAll();
-    document.getElementById("paymentSection").style.display = "block";
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(to right, #141e30, #243b55);
+    color: white;
 }
 
-function showBooking() {
-    hideAll();
-    document.getElementById("bookingSection").style.display = "block";
+/* Header */
+header {
+    text-align: center;
+    padding: 30px;
+    background: rgba(0,0,0,0.5);
 }
 
-function showAdmin() {
-    hideAll();
-    document.getElementById("adminSection").style.display = "block";
-    loadBookings();
+/* Hero */
+.hero {
+    text-align: center;
+    padding: 60px 20px;
 }
 
-function hideAll() {
-    document.getElementById("paymentSection").style.display = "none";
-    document.getElementById("bookingSection").style.display = "none";
-    document.getElementById("adminSection").style.display = "none";
+.hero button {
+    padding: 15px 30px;
+    background: #00c6ff;
+    border: none;
+    color: black;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
-/* Booking System */
-function bookSession() {
-    let name = document.getElementById("clientName").value;
-    let date = document.getElementById("sessionDate").value;
-
-    if (name && date) {
-        bookings.push({ name, date });
-        alert("Session booked successfully!");
-    }
+/* Cards */
+.services {
+    padding: 40px;
+    text-align: center;
 }
 
-function loadBookings() {
-    let list = document.getElementById("bookingList");
-    list.innerHTML = "";
-
-    bookings.forEach((b) => {
-        list.innerHTML += `<p>${b.name} - ${b.date}</p>`;
-    });
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-/* Stripe Payment (Demo Only) */
-const stripe = Stripe("YOUR_STRIPE_PUBLIC_KEY"); // Replace with your key
-
-function payNow() {
-    alert("Redirecting to secure payment...");
-
-    // Normally you call backend to create checkout session
-    stripe.redirectToCheckout({
-        lineItems: [{
-            price: "price_id_here", // Your Stripe price ID
-            quantity: 1
-        }],
-        mode: "subscription",
-        successUrl: window.location.href,
-        cancelUrl: window.location.href
-    });
+.card {
+    background: rgba(255,255,255,0.1);
+    margin: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
 }
+
+/* Payment */
+.payment {
+    background: #ffffff;
+    color: black;
+    padding: 40px;
+    text-align: center;
+}
+
+.payment form {
+    max-width: 400px;
+    margin: auto;
+}
+
+.payment input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.payment button {
+    width: 100%;
+    padding: 12px;
+    background: #007BFF;
+    border: none;
+    color: white;
+}
+
+/* Info Sections */
+.info {
+    padding: 30px;
+    background: rgba(255,255,255,0.05);
+    margin: 10px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 30px;
+    background: black;
+    font-size: 22px;
+}
+``
