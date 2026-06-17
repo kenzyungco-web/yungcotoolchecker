@@ -1,52 +1,65 @@
-// THEME SWITCHER
+// ✅ THEME SWITCH
 const themeSelect = document.getElementById("themeSelect");
 const colorPicker = document.getElementById("colorPicker");
 
-themeSelect.addEventListener("change", () => {
-    document.body.className = themeSelect.value;
+themeSelect.addEventListener("change", function () {
+    document.body.className = this.value;
 });
 
-colorPicker.addEventListener("input", () => {
-    document.body.style.background = colorPicker.value;
+colorPicker.addEventListener("input", function () {
+    document.body.style.background = this.value;
 });
 
-// MONEYBACK CHECKER
+
+// ✅ MONEYBACK CHECKER
 function checkEligibility() {
-    const orderDate = new Date(document.getElementById("orderDate").value);
+    const orderDateValue = document.getElementById("orderDate").value;
+
+    if (!orderDateValue) {
+        document.getElementById("mbResult").innerText = "Select a date";
+        return;
+    }
+
+    const orderDate = new Date(orderDateValue);
     const validity = parseInt(document.getElementById("validity").value);
     const today = new Date();
 
-    const diffTime = today - orderDate;
-    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+    const diffDays = Math.floor((today - orderDate) / (1000 * 60 * 60 * 24));
 
     if (diffDays <= validity) {
-        document.getElementById("mbResult").innerText = 
-            "✅ Eligible (" + Math.floor(validity - diffDays) + " days left)";
+        document.getElementById("mbResult").innerText =
+            "✅ Eligible (" + (validity - diffDays) + " days remaining)";
     } else {
-        document.getElementById("mbResult").innerText = 
-            "❌ Not Eligible";
+        document.getElementById("mbResult").innerText = "❌ Not Eligible";
     }
 }
 
-// REFUND CALCULATOR
+
+// ✅ REFUND CALCULATOR
 function calculateRefund() {
     const amount = parseFloat(document.getElementById("amount").value);
     const percent = parseFloat(document.getElementById("refundPercent").value);
 
-    if (!amount) {
-        document.getElementById("refundResult").innerText = "Enter amount";
+    if (isNaN(amount)) {
+        document.getElementById("refundResult").innerText = "Enter valid amount";
         return;
     }
 
-    const refund = (amount * percent) / 100;
+    let refund = (amount * percent) / 100;
 
     document.getElementById("refundResult").innerText =
-        "Refund: " + refund.toFixed(2);
+        "Refund Amount: " + refund.toFixed(2);
 }
 
-// TIME CONVERTER
+
+// ✅ TIME CONVERTER
 function convertTime() {
     const seconds = parseInt(document.getElementById("seconds").value);
+
+    if (isNaN(seconds)) {
+        document.getElementById("timeResult").innerText = "Enter seconds";
+        return;
+    }
 
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
@@ -56,12 +69,18 @@ function convertTime() {
         `${hrs}h ${mins}m ${secs}s`;
 }
 
-// WORLD CLOCK
+
+// ✅ WORLD CLOCK
 function updateClock() {
     const tz = document.getElementById("timezone").value;
 
-    const now = new Date().toLocaleString("en-US", { timeZone: tz });
+    const now = new Date().toLocaleString("en-US", {
+        timeZone: tz,
+        hour12: true
+    });
+
     document.getElementById("clock").innerText = now;
 }
 
 setInterval(updateClock, 1000);
+updateClock();
