@@ -1,96 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
-  <title>Customer Dashboard</title>
- 
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utility Tool</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
- 
 <body>
- 
-  <!-- HEADER -->
-<header>
-<h1>Customer Service Utility Dashboard</h1>
- 
-    <div class="top-bar">
-<div id="clock">00:00:00</div>
- 
-      <button id="darkBtn">
-        Dark Mode
-</button>
+
+<h1>Utility Tool Dashboard</h1>
+
+<!-- THEME SELECTOR -->
+<div class="card">
+    <h2>Theme Selector</h2>
+    <select id="themeSelect">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="blue">Blue</option>
+        <option value="neon">Neon</option>
+    </select>
+    <input type="color" id="colorPicker">
 </div>
-</header>
- 
-  <!-- DASHBOARD -->
-<div class="dashboard">
- 
-    <!-- MONEYBACK -->
+
+<!-- MONEY BACK CHECKER -->
 <div class="card">
- 
-      <h2>Moneyback Guarantee Checker</h2>
- 
-      <input type="date" id="purchaseDate">
- 
-      <input type="number" id="days" placeholder="Guarantee Days">
- 
-      <button onclick="checkGuarantee()">
-        Check
-</button>
- 
-      <div id="guaranteeResult"></div>
- 
-    </div>
- 
-    <!-- AHT -->
+    <h2>Moneyback Guarantee Checker</h2>
+    <input type="date" id="orderDate">
+    <select id="validity">
+        <option value="60">60 Days</option>
+        <option value="90">90 Days</option>
+        <option value="180">180 Days</option>
+    </select>
+    <button onclick="checkEligibility()">Check</button>
+    <p id="mbResult"></p>
+</div>
+
+<!-- REFUND CALCULATOR -->
 <div class="card">
- 
-      <h2>AHT Time Converter</h2>
- 
-      <input type="number" id="seconds" placeholder="Enter Seconds">
- 
-      <button onclick="convertTime()">
-        Convert
-</button>
- 
-      <div id="timeResult"></div>
- 
-    </div>
- 
-    <!-- REFUND -->
+    <h2>Refund Calculator</h2>
+    <input type="number" id="amount" placeholder="Enter amount">
+    <select id="refundPercent">
+        <option value="10">10%</option>
+        <option value="15">15%</option>
+        <option value="20">20%</option>
+        <option value="35">35%</option>
+        <option value="50">50%</option>
+    </select>
+    <button onclick="calculateRefund()">Calculate</button>
+    <p id="refundResult"></p>
+</div>
+
+<!-- AHT CONVERTER -->
 <div class="card">
- 
-      <h2>Refund Calculator</h2>
- 
-      <input type="number" id="price" placeholder="Product Price">
- 
-      <input type="number" id="percent" placeholder="Refund %">
- 
-      <input type="number" id="fee" placeholder="Processing Fee">
- 
-      <button onclick="calculateRefund()">
-        Calculate
-</button>
- 
-      <div id="refundResult"></div>
- 
-    </div>
- 
-    <!-- PRODUCT -->
+    <h2>AHT Time Tracker</h2>
+    <input type="number" id="seconds" placeholder="Enter seconds">
+    <button onclick="convertTime()">Convert</button>
+    <p id="timeResult"></p>
+</div>
+
+<!-- WORLD CLOCK -->
 <div class="card">
- 
-      <h2>Product Search</h2>
- 
-      <input type="text" id="productSearch" placeholder="Product Name or ID">
- 
-      <button onclick="searchProduct()">
-        Search
-</button>
- 
-      <div id="productResult"></div>
- 
-    </div>
- 
- 
+    <h2>World Clock</h2>
+    <select id="timezone">
+        <option value="Asia/Manila">Philippines</option>
+        <option value="UTC">UTC</option>
+        <option value="America/New_York">New York</option>
+        <option value="Europe/London">London</option>
+    </select>
+    <p id="clock"></p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
