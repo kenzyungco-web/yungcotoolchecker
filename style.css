@@ -5,37 +5,41 @@ body {
     transition: 0.3s;
 }
 
+/* CARDS */
 .card {
-    border: 1px solid #ccc;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
     padding: 15px;
     margin: 15px auto;
     width: 320px;
-    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-/* THEMES */
+/* THEMES WITH STRONG BACKGROUNDS */
 .light {
-    background: #ffffff;
+    background: linear-gradient(to right, #f5f7fa, #c3cfe2);
     color: #000;
 }
 
 .dark {
-    background: #1e1e1e;
+    background: linear-gradient(to right, #232526, #414345);
     color: #fff;
 }
 
 .blue {
-    background: #0d47a1;
+    background: linear-gradient(to right, #1e3c72, #2a5298);
     color: #fff;
 }
 
 .neon {
-    background: #000;
+    background: black;
     color: #39ff14;
 }
 
+/* BUTTONS */
 button {
-    padding: 8px;
+    padding: 8px 12px;
     margin-top: 10px;
     cursor: pointer;
 }
+``
